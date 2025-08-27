@@ -38,11 +38,7 @@ public class WeaponController : MonoBehaviour
 
     private Func<Projectile, float, Vector2> movementPath;
 
-    public Queue<Projectile> projectilePool = new();
-
-
-    private ProjectileManager _projectileManager;
-    public ProjectileManager ProjectileManager => _projectileManager;
+    public ProjectileManager pManager;
 
 
     [Header("Weapon Parts")]
@@ -57,7 +53,6 @@ public class WeaponController : MonoBehaviour
 
     void Start()
     {
-        _projectileManager = FindAnyObjectByType<ProjectileManager>();
         // fireAction = InputSystem.actions.FindAction("Attack");
         fireAction.Enable();
         if (barrel != null || magazine != null || stock != null || basePart != null || grip != null)
@@ -121,16 +116,7 @@ public class WeaponController : MonoBehaviour
 
     void Fire()
     {
-        Projectile projectile;
-        if (projectilePool.Count > 0)
-        {
-            projectile = projectilePool.Dequeue();
-            if (projectile == null || projectile.gameObject == null) projectile = GenerateProjectile();
-        }
-        else
-        {
-            projectile = GenerateProjectile();
-        }
+        Projectile projectile = pManager.Next();
         projectile.Initialize(
             projSpeed,
             projDamage,
@@ -149,29 +135,12 @@ public class WeaponController : MonoBehaviour
             this
         );
         projectile.transform.position = transform.position;
-        projectile.movementPath = Paths.StraightPath; // Set the movement path function
-        projectile.gameObject.GetComponent<SpriteRenderer>().sprite = projSprite;
-
-        projectile.direction = transform.right; // Assuming the weapon's forward direction is up
+        projectile.movementPath = Paths.StraightPath;
+        var sr = projectile.gameObject.GetComponent<SpriteRenderer>();
+        if (sr != null) sr.sprite = projSprite;
+        projectile.direction = transform.right;
         projectile.gameObject.SetActive(true);
     }
 
-    Projectile GenerateProjectile()
-    {
-        GameObject projectileObj = new("Projectile");
-        projectileObj.AddComponent<CircleCollider2D>();
-        Rigidbody2D rb = projectileObj.AddComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        rb.simulated = true;
-        rb.useFullKinematicContacts = true;
-        rb.gravityScale = 0f;
-        rb.linearDamping = 0f;
-        rb.angularDamping = 0f;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        projectileObj.AddComponent<SpriteRenderer>();
-        Projectile projectile = projectileObj.AddComponent<Projectile>();
-        projectile.gameObject.SetActive(false);
-        ProjectileManager.AddProjectile(projectile);
-        return projectile;
-    }
+
 }

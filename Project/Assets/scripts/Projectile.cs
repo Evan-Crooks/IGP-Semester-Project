@@ -107,7 +107,7 @@ public class Projectile : MonoBehaviour
     {
         gameObject.SetActive(false);
         transform.position = Vector3.zero;
-        weaponController.projectilePool.Enqueue(this);
+        weaponController.pManager.Deactivate(this);
 
         speed = 0f;
         direction = Vector2.zero;
@@ -130,9 +130,12 @@ public class Projectile : MonoBehaviour
 
 
     }
-    
-    void OnCollisionEnter2D(Collision2D other) {
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
         print(other.gameObject.tag);
         if (other.gameObject.CompareTag("Terrain")) { onHitEnvironment(); } 
+        
+        
     }
 }
