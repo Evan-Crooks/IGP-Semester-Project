@@ -35,9 +35,6 @@ public class WeaponController : MonoBehaviour
     private float projRecoil = 1f;
     [SerializeField]
     private Sprite projSprite = null; // Placeholder for the sprite, can be set later
-
-    private Func<Projectile, float, Vector2> movementPath;
-
     public ProjectileManager pManager;
 
 
@@ -132,10 +129,10 @@ public class WeaponController : MonoBehaviour
             projFireRate,
             projRecoil,
             projSprite,
-            this
+            this, 
+            Paths.StraightPath
         );
         projectile.transform.position = transform.position;
-        projectile.movementPath = Paths.StraightPath;
         var sr = projectile.gameObject.GetComponent<SpriteRenderer>();
         if (sr != null) sr.sprite = projSprite;
         projectile.direction = transform.right;

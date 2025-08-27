@@ -38,7 +38,9 @@ public class Projectile : MonoBehaviour
         float fireRate,
         float recoil,
         Sprite sprite,
-        WeaponController weaponController
+        WeaponController weaponController,
+        System.Func<Projectile, float, Vector3> movementPath
+
     )
     {
         this.speed = speed;
@@ -58,7 +60,29 @@ public class Projectile : MonoBehaviour
         this.weaponController = weaponController;
 
         age = 0f;
-
+        this.movementPath = movementPath;
+    }
+    
+    public Projectile(Projectile other)
+    {
+        speed = other.speed;
+        direction = other.direction;
+        damage = other.damage;
+        age = other.age;
+        lifetime = other.lifetime;
+        range = other.range;
+        gravity = other.gravity;
+        spread = other.spread;
+        size = other.size;
+        rotation = other.rotation;
+        scale = other.scale;
+        mass = other.mass;
+        bounciness = other.bounciness;
+        fireRate = other.fireRate;
+        recoil = other.recoil;
+        sprite = other.sprite;
+        movementPath = other.movementPath;
+        weaponController = other.weaponController;
     }
 
     public void onHitEntity()
@@ -136,6 +160,6 @@ public class Projectile : MonoBehaviour
         print(other.gameObject.tag);
         if (other.gameObject.CompareTag("Terrain")) { onHitEnvironment(); } 
         
-        
+
     }
 }
