@@ -5,6 +5,15 @@ using System.Collections.Generic;
 
 public class WeaponController : MonoBehaviour
 {
+    [SerializeField] private float fireRate;
+    [SerializeField] private FireMode mode;
+    [SerializeField] private WeaponType type;
+    [SerializeField] private float accuracy;
+    [SerializeField] ReloadType reloadType;
+    [SerializeField] AmmoType ammoType;
+
+
+
     [SerializeField]
     private float projSpeed = 10f;
     [SerializeField]
@@ -71,16 +80,26 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    public void OnAttack(){
+        Fire();
+    }
     private void AssembleWeapon()
     {
         // Base logic
         if (basePart != null)
         {
-            projFireRate += basePart.properties.baseFireRate;
-            // Add more BasePartData properties as needed
-            // Example:
-            // reloadType = basePart.properties.reloadType;
-            // ammoType = basePart.properties.ammoType;
+            // Use BasePartData as initial values where applicable
+            // Assign base part properties to weapon controller fields
+            fireRate = basePart.properties.fireRate;
+            projDamage = basePart.properties.damage;
+            projRange = basePart.properties.range;
+            projRecoil = basePart.properties.recoil;
+            mode = basePart.properties.mode;
+            type = basePart.properties.type;
+            accuracy = basePart.properties.accuracy;
+            reloadType = basePart.properties.reloadType;
+            ammoType = basePart.properties.ammoType;
+
         }
         // Barrel logic
         if (barrel != null)
@@ -129,7 +148,7 @@ public class WeaponController : MonoBehaviour
             projFireRate,
             projRecoil,
             projSprite,
-            this, 
+            this,
             Paths.StraightPath
         );
         projectile.transform.position = transform.position;

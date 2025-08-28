@@ -13,9 +13,15 @@ public abstract class BasePart : WeaponPart
         if (properties.Equals(default(BasePartData)))
         {
             properties = new BasePartData(
-                Random.Range(minData.baseFireRate, maxData.baseFireRate),
+                Random.Range(minData.fireRate, maxData.fireRate),
                 minData.mode,
-                minData.type
+                minData.type,
+                Random.Range(minData.damage, maxData.damage),
+                Random.Range(minData.range, maxData.range),
+                Random.Range(minData.recoil, maxData.recoil),
+                Random.Range(minData.accuracy, maxData.accuracy),
+                minData.reloadType,
+                minData.ammoType
             );
         }
     }
@@ -24,19 +30,41 @@ public abstract class BasePart : WeaponPart
 [System.Serializable]
 public struct BasePartData
 {
-    public weaponType type;
-    public fireMode mode;
-    public float baseFireRate;
+    public WeaponType type;
+    public FireMode mode;
+    public float fireRate;
+    public float damage;
+    public float range;
+    public float recoil;
+    public float accuracy;
+    public ReloadType reloadType;
+    public AmmoType ammoType;
 
-    public BasePartData(float baseFireRate, fireMode mode, weaponType type)
+    public BasePartData(
+        float fireRate,
+        FireMode mode,
+        WeaponType type,
+        float damage,
+        float range,
+        float recoil,
+        float accuracy,
+        ReloadType reloadType,
+        AmmoType ammoType
+    )
     {
-        this.baseFireRate = baseFireRate;
+        this.fireRate = fireRate;
         this.mode = mode;
         this.type = type;
+        this.damage = damage;
+        this.range = range;
+        this.recoil = recoil;
+        this.accuracy = accuracy;
+        this.reloadType = reloadType;
+        this.ammoType = ammoType;
     }
 }
 
-public enum weaponType
+public enum WeaponType
 {
     pistol,
     rifle,
@@ -48,10 +76,24 @@ public enum weaponType
     melee,
 }
 
-public enum fireMode
+public enum ReloadType
+{
+    single,
+    full, 
+    recharge,
+}
+
+public enum FireMode
 {
     single,
     burst,
     auto,
     charge,
+}
+
+public enum AmmoType
+{
+    projectile,
+    beam,
+    hitscan,
 }

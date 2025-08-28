@@ -10,18 +10,23 @@ public class ProjectileManager : MonoBehaviour
     {
         // Move projectiles and expire them if needed, without modifying the list during iteration.
         List<Projectile> toExpire = new();
-        foreach (Projectile p in activeProjectiles) {
-            if (p.gameObject.activeSelf) {
-                if (p.gameObject && p.gameObject.activeInHierarchy) {
+        foreach (Projectile p in activeProjectiles)
+        {
+            if (p.gameObject.activeSelf)
+            {
+                if (p.gameObject && p.gameObject.activeInHierarchy)
+                {
                     p.transform.position = p.movementPath(p, Time.deltaTime);
                     p.age += Time.deltaTime;
-                    if (p.age >= p.lifetime || (p.range != -1 && Vector2.Distance(p.weaponController.transform.position, p.transform.position) >= p.range)) {
+                    if (p.age >= p.lifetime || (p.range != -1 && Vector2.Distance(p.weaponController.transform.position, p.transform.position) >= p.range))
+                    {
                         toExpire.Add(p);
                     }
                 }
             }
         }
-        foreach (Projectile p in toExpire) {
+        foreach (Projectile p in toExpire)
+        {
             p.Expire();
         }
     }
@@ -33,7 +38,8 @@ public class ProjectileManager : MonoBehaviour
             nextP = inactiveProjectiles.Dequeue();
         }
         //if no inactive projectiles make a new one
-        else{
+        else
+        {
             GameObject projectileObj = GenerateProjectileObj();
             nextP = projectileObj.AddComponent<Projectile>();
         }
@@ -49,7 +55,7 @@ public class ProjectileManager : MonoBehaviour
     {
         return inactiveProjectiles.Count > 0;
     }
-        GameObject GenerateProjectileObj()
+    GameObject GenerateProjectileObj()
     {
         GameObject projectileObj = new("Projectile");
         projectileObj.AddComponent<CircleCollider2D>();
@@ -66,5 +72,5 @@ public class ProjectileManager : MonoBehaviour
 
         return projectileObj;
     }
-    
+
 }
