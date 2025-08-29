@@ -62,7 +62,7 @@ public class Projectile : MonoBehaviour
         age = 0f;
         this.movementPath = movementPath;
     }
-    
+
     public Projectile(Projectile other)
     {
         speed = other.speed;
@@ -124,6 +124,16 @@ public class Projectile : MonoBehaviour
     public void Expire()
     {
         onExpire();
+        ResetEndOfFrame();
+    }
+    public void ResetEndOfFrame()
+    {
+        StartCoroutine(ResetEndOfFrameCoroutine());
+    }
+
+    private System.Collections.IEnumerator ResetEndOfFrameCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
         Reset();
     }
 
@@ -157,9 +167,9 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        print(other.gameObject.tag);
-        if (other.gameObject.CompareTag("Terrain")) { onHitEnvironment(); } 
-        
+        print($"Gameobject: {other.gameObject.name}, with tag: \"{other.gameObject.tag}\"");
+        if (other.gameObject.CompareTag("Terrain")) { onHitEnvironment(); }
+        if (other.gameObject.CompareTag("Enemy")) { other.gameObject.GetComponent<Health>().DealDamage((int)damage, 1); onHitEntity(); }
 
     }
 }

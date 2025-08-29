@@ -12,7 +12,7 @@ public class Move : MonoBehaviour
     }
     void FixedUpdate()
     {
-        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y) * 5f * Time.fixedDeltaTime;
+        Vector3 movement = new Vector3(moveInput.x, moveInput.y, 0) * 5f * Time.fixedDeltaTime;
         transform.Translate(movement);
     }
 }

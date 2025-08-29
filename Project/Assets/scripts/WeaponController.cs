@@ -73,6 +73,7 @@ public class WeaponController : MonoBehaviour
 
     void Update()
     {
+        timeSinceFire += Time.deltaTime;
         // Check if the fire action is triggered
         if (fireAction.WasPressedThisFrame())
         {
@@ -130,8 +131,12 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    // 1/fire rate =
+    private float timeSinceFire = 0;
     void Fire()
     {
+        if (timeSinceFire < 1 / fireRate) return;
+        timeSinceFire = 0;
         Projectile projectile = pManager.Next();
         projectile.Initialize(
             projSpeed,
