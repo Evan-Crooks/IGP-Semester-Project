@@ -6,5 +6,9 @@ public class BasicMagazine : MagazinePart {
         base.onHitEnvironment(p);
         p.Expire();
     }
-
+    public override void onHitEntity(Projectile p)
+    {
+        base.onHitEntity(p);
+        p.Expire();
+    }
 }
