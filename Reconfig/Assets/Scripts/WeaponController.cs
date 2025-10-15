@@ -80,7 +80,7 @@ public class WeaponController : MonoBehaviour
             Fire();
         }
     }
-    //old function
+
     public void OnAttack(){
         Fire();
     }
@@ -161,9 +161,7 @@ public class WeaponController : MonoBehaviour
         projectile.transform.position = transform.position;
         var sr = projectile.gameObject.GetComponent<SpriteRenderer>();
         if (sr != null) sr.sprite = projSprite;
-        // projectile.direction = transform.right; //TODO: aiming.
-        projectile.direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        projectile.direction.Normalize();
+        projectile.direction = transform.right;
         projectile.gameObject.SetActive(true);
     }
 

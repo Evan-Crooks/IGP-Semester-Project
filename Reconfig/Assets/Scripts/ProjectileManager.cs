@@ -1,6 +1,3 @@
-//projectile manager, controls movement of all projecjtiles, 
-
-
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -9,13 +6,10 @@ public class ProjectileManager : MonoBehaviour
     [SerializeField]
     private List<Projectile> activeProjectiles = new();
     private Queue<Projectile> inactiveProjectiles = new();
-
     void Update()
     {
         // Move projectiles and expire them if needed, without modifying the list during iteration.
         List<Projectile> toExpire = new();
-
-        //if performance becomes an issue make this multithreaded it will healp.
         foreach (Projectile p in activeProjectiles)
         {
             if (p.gameObject.activeSelf)
