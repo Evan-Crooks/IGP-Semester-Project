@@ -524,7 +524,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1294483018}
-  - component: {fileID: 1294483017}
   - component: {fileID: 1294483019}
   - component: {fileID: 1294483020}
   - component: {fileID: 1294483021}
@@ -623,15 +622,15 @@ MonoBehaviour:
     spread: 0
     speedModifier: 0
   minData:
-    rangeModifier: 0
+    rangeModifier: 24.11
     accuracyModifier: 0
     spread: 0
     speedModifier: 0
   maxData:
-    rangeModifier: 10
+    rangeModifier: 25.79
     accuracyModifier: 3
     spread: 10
-    speedModifier: 5
+    speedModifier: 1.51
 --- !u!114 &1294483020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +659,7 @@ MonoBehaviour:
     mode: 0
     fireRate: 0
     damage: 0
-    range: 0
+    range: 15.05
     recoil: 0
     accuracy: 0
     reloadType: 0
@@ -920,6 +919,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1324425704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324425698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074fde77dcfada84eae17b26ea833985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1324425705
 MonoBehaviour:
   m_ObjectHideFlags: 0

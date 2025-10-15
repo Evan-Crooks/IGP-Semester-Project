@@ -56,9 +56,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -96,7 +93,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!50 &4606180619492578070
 Rigidbody2D:
-  serializedVersion: 5
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -107,8 +104,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -129,7 +126,6 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5271654060287139543}
   m_Enabled: 1
-  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -153,8 +149,7 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,6 +160,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &7568646804758064767
@@ -207,15 +203,15 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 9f267f7d-dec7-4de8-8847-81952c4e8015
-    m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: d31067c1-5860-4e42-ab6d-8cd5c50cc979
-    m_ActionName: 'Player/Look[/Mouse/delta]'
+    m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 07aab202-0c9f-4e29-aede-fdc550ecfd6f
-    m_ActionName: 'Player/Fire[/Mouse/leftButton]'
+    m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1933568892616511713}
@@ -231,39 +227,39 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: c32048cb-17bb-46eb-af19-db06ac32ead3
-    m_ActionName: 'Player/Jump[/Keyboard/space]'
+    m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 38a947de-e48a-476a-bc3d-e11152a1a432
-    m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: bca77c3d-fd49-44b1-a68b-fd6b13a49b2b
-    m_ActionName: 'UI/Submit[/Keyboard/enter]'
+    m_ActionName: UI/Submit[/Keyboard/enter]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 7ce08551-7b80-46d4-9b1b-1974e9a3f7a0
-    m_ActionName: 'UI/Cancel[/Keyboard/escape]'
+    m_ActionName: UI/Cancel[/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 47af24d8-b9eb-494f-b5f3-8ea90eadfb42
-    m_ActionName: 'UI/Point[/Mouse/position]'
+    m_ActionName: UI/Point[/Mouse/position]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c50c7c89-3ff2-44c2-be6d-1c4443b66ed9
-    m_ActionName: 'UI/Click[/Mouse/leftButton]'
+    m_ActionName: UI/Click[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: f8e1ffc7-41db-438f-8974-8db010989522
-    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: b0e917b8-97b5-4bd5-8444-bd0d8bb7688e
-    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: b7dff273-bdee-4c3c-bec7-603024640669
-    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 04ab3aac-bb04-49f9-9de9-f34bc5e5240e
@@ -293,7 +289,7 @@ MonoBehaviour:
   groundCheck: {fileID: 4910569262249917802}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   jumpingPower: 6
   movedSinceKnockback: 0
 --- !u!114 &8209928573750805214
