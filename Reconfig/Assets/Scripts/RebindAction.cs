@@ -27,23 +27,23 @@ public class RebindAction : MonoBehaviour
 
     void Start()
     {
-        //Grab Keys for movement to output to the thing
-        var MoveActions = InputSystem.actions.FindAction("Move");
-        foreach (var binding in MoveActions.bindings)
-        {
-            Debug.Log("Binding name: " + binding.name);
-            if (binding.name == "left" || binding.name == "right")
-            {
-                //Get the key associated with left
-                var keyPath = binding.effectivePath;
-                //Split it so we can extract just the key from the keyboard
-                var key = keyPath.Split('/')[1];
-                //Assign it to move left or move right
-                (binding.name == "left") ? MoveLeft = key : MoveRight = key;
-                MoveLeft = key;
-                Debug.Log("Move Left is: " + MoveLeft);
-            }
-        }
+        ////Grab Keys for movement to output to the thing
+        //var MoveActions = InputSystem.actions.FindAction("Move");
+        //foreach (var binding in MoveActions.bindings)
+        //{
+        //    Debug.Log("Binding name: " + binding.name);
+        //    if (binding.name == "left" || binding.name == "right")
+        //    {
+        //        //Get the key associated with left
+        //        var keyPath = binding.effectivePath;
+        //        //Split it so we can extract just the key from the keyboard
+        //        var key = keyPath.Split('/')[1];
+        //        //Assign it to move left or move right
+        //        (binding.name == "left") ? MoveLeft = key : MoveRight = key;
+        //        MoveLeft = key;
+        //        Debug.Log("Move Left is: " + MoveLeft);
+        //    }
+        //}
         //Grab key for jump
         // foreach (var action in MoveActions)
         // {

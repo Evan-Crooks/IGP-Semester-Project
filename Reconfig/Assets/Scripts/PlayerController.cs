@@ -56,10 +56,12 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Jump(InputAction.CallbackContext context)
-    {        
+    {
+        Debug.Log("Jump input detected");
+        Debug.Log("IsGrounded: " + IsGrounded());
         if (context.performed && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.y, jumpingPower);
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
     }
 
