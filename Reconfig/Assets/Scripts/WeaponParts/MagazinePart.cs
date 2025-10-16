@@ -11,17 +11,17 @@ public abstract class MagazinePart : WeaponPart
     public Sprite projectileSprite;
 
     [SerializeField]
-    protected MagazinePartData minData,
-        maxData;
+    protected MagazinePartData minData, maxData;
 
-    void Awake()
+     protected void Awake()
     {
         if (properties.Equals(default(MagazinePartData)))
         {
             properties = new MagazinePartData(
                 Random.Range(minData.ammoCapacity, maxData.ammoCapacity),
                 Random.Range(minData.reloadTime, maxData.reloadTime),
-                minData.magazineType
+                minData.magazineType,
+                minData.movementPath
             );
         }
     }
@@ -33,12 +33,14 @@ public struct MagazinePartData
     public int ammoCapacity;
     public float reloadTime;
     public MagazineType magazineType;
+    public System.Func<Projectile, float, Vector3> movementPath;
 
-    public MagazinePartData(int ammoCapacity, float reloadTime, MagazineType magazineType)
+    public MagazinePartData(int ammoCapacity, float reloadTime, MagazineType magazineType, System.Func<Projectile, float, Vector3> movementPath)
     {
         this.ammoCapacity = ammoCapacity;
         this.reloadTime = reloadTime;
         this.magazineType = magazineType;
+        this.movementPath = movementPath;
     }
 }
 

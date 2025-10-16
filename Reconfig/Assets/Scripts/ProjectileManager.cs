@@ -58,16 +58,16 @@ public class ProjectileManager : MonoBehaviour
     GameObject GenerateProjectileObj()
     {
         GameObject projectileObj = new("Projectile");
-        projectileObj.AddComponent<CircleCollider2D>();
+        CircleCollider2D collider = projectileObj.AddComponent<CircleCollider2D>();
+        collider.isTrigger = true;
         Rigidbody2D rb = projectileObj.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.simulated = true;
         rb.useFullKinematicContacts = true;
         rb.gravityScale = 0f;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         projectileObj.AddComponent<SpriteRenderer>();
         projectileObj.transform.parent = transform;
-
         return projectileObj;
     }
 

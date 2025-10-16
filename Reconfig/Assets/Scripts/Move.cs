@@ -8,7 +8,6 @@ public class Move : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        print(moveInput);
     }
     void FixedUpdate()
     {
