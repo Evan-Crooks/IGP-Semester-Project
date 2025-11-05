@@ -184,7 +184,11 @@ public class WeaponController : MonoBehaviour
         projectile.transform.position = transform.position;
         var sr = projectile.gameObject.GetComponent<SpriteRenderer>();
         if (sr != null) sr.sprite = projSprite;
-        projectile.direction = transform.right; //TODO change this to aim
+        // target mouse position
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0; // Ensure z is 0 for 2D
+        projectile.direction = (mousePosition - transform.position).normalized;
+        // TODO add controller support
         projectile.gameObject.SetActive(true);
     }
 

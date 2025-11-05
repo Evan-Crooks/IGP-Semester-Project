@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class BasicMagazine : MagazinePart {
-    void Awake()
+    new void Awake()
     {
         base.Awake();
         base.properties.movementPath = Paths.StraightPath;
