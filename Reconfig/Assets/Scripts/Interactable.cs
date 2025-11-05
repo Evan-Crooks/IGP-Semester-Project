@@ -13,14 +13,14 @@ public class Interactable : MonoBehaviour
         print($"trigger f{collision.gameObject.name}");
         if (collision.tag == "Player")
         {
-            collision.GetComponent<Interact>().interactionTaget = this;
+            collision.GetComponent<Interact>().interactionTarget = this;
         }
     }
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            if (collision.GetComponent<Interact>().interactionTaget == this) collision.GetComponent<Interact>().interactionTaget = null;
+            if (collision.GetComponent<Interact>().interactionTarget == this) collision.GetComponent<Interact>().interactionTarget = null;
         }
     }
 }
