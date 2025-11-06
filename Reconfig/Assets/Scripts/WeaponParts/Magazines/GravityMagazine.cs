@@ -5,10 +5,10 @@ using UnityEngine;
 public class GravityMagazine : MagazinePart
 {
     //basic mag except it has the gravity path
-    void Awake()
+    new void Awake()
     {
         base.Awake();
-        base.properties.movementPath = Paths.GravityPath;
+        properties.movementPath = Paths.GravityPath;
     }
     public override void onHitEnvironment(Projectile p)
     {

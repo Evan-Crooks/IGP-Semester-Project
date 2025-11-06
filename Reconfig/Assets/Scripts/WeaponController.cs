@@ -3,47 +3,12 @@ using UnityEngine.InputSystem;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private float fireRate;
-    [SerializeField] private FireMode mode;
-    [SerializeField] private WeaponType type;
-    [SerializeField] private float accuracy;
-    [SerializeField] ReloadType reloadType;
-    [SerializeField] AmmoType ammoType;
-
     [SerializeField]
-    private float projSpeed = 10f;
-    [SerializeField]
-    private float projDamage = 5f;
-    [SerializeField]
-    private float projLifetime = 2f;
-    [SerializeField]
-    private float projRange = 20f;
-    [SerializeField]
-    private float projGravity = 1f;
-    [SerializeField]
-    private float projDrag = 0.1f; //unused rn
-    [SerializeField]
-    private float projSpread = 0.05f;
-    [SerializeField]
-    private float projSize = 1f;
-    [SerializeField]
-    private float projRotation = 0f;
-    [SerializeField]
-    private float projScale = 1f;
-    [SerializeField]
-    private float projMass = 1f;
-    [SerializeField]
-    private float projBounciness = 0.2f;
-    [SerializeField]
-    private float projFireRate = 0.5f;
-    [SerializeField]
-    private float projRecoil = 1f;
-    [SerializeField]
-    private Sprite projSprite = null; // Placeholder for the sprite, can be set later
-    private System.Func<Projectile, float, Vector3> movementPath = Paths.StraightPath;
+    private WeaponStats weaponStats;
 
     public ProjectileManager pManager;
 
@@ -89,17 +54,7 @@ public class WeaponController : MonoBehaviour
         // Base logic
         if (basePart != null)
         {
-            // Use BasePartData as initial values where applicable
-            // Assign base part properties to weapon controller fields
-            fireRate = basePart.properties.fireRate;
-            projDamage = basePart.properties.damage;
-            projRange = basePart.properties.range;
-            projRecoil = basePart.properties.recoil;
-            mode = basePart.properties.mode;
-            type = basePart.properties.type;
-            accuracy = basePart.properties.accuracy;
-            reloadType = basePart.properties.reloadType;
-            ammoType = basePart.properties.ammoType;
+            weaponStats = basePart.properties;
         }
         else
         {
@@ -109,9 +64,7 @@ public class WeaponController : MonoBehaviour
         // Barrel logic
         if (barrel != null)
         {
-            projRange += barrel.properties.rangeModifier; // distance projectile can travel
-            projSpread += barrel.properties.spread; // angle projectile spreads out
-            projSpeed *= barrel.properties.speedModifier; // usually a negative value (slows projectile)
+            weaponStats += weaponStats * barrel.properties;
         }
         else
         {
@@ -121,7 +74,7 @@ public class WeaponController : MonoBehaviour
         // Magazine logic
         if (magazine != null)
         {
-            movementPath = magazine.properties.movementPath;
+            weaponStats += weaponStats * magazine.properties;
         }
         else
         {
@@ -131,10 +84,7 @@ public class WeaponController : MonoBehaviour
         // Stock logic
         if (stock != null)
         {
-            projRecoil -= stock.properties.recoilRecoveryModifier;
-            // sway += stock.properties.swayModifier; // If sway exists
-            // moveStability += stock.properties.moveStabilityModifier; // If moveStability exists
-            // staminaHandling += stock.properties.staminaHandlingModifier; // If staminaHandling exists
+            weaponStats += weaponStats * stock.properties;
         }
         else
         {
@@ -144,9 +94,7 @@ public class WeaponController : MonoBehaviour
         // Grip logic
         if (grip != null)
         {
-            projRecoil += grip.properties.recoilModifier;
-            // adsSpeed += grip.properties.adsSpeedModifier; // If adsSpeed exists
-            // aimMoveSpeed += grip.properties.aimMoveSpeedModifier; // If aimMoveSpeed exists
+            weaponStats += weaponStats * grip.properties;
         }
         else
         {
@@ -157,36 +105,218 @@ public class WeaponController : MonoBehaviour
     // 1/fire rate =
     void Fire()
     {
+        // TODO fire rate is limited by frame rate should not be in the future.
         //lock projectile from firing before it should be able to 
-        if (timeSinceFire < 1 / fireRate) return;
+        if (timeSinceFire < 1 / weaponStats.fireRate) return;
         print("fire");
         timeSinceFire = 0;
 
         Projectile projectile = pManager.Next();
         projectile.Initialize(
-            projSpeed,
-            projDamage,
-            projLifetime,
-            projRange,
-            projGravity,
-            projSpread,
-            projSize,
-            projRotation,
-            projScale,
-            projMass,
-            projBounciness,
-            projFireRate,
-            projRecoil,
-            projSprite,
+            weaponStats.projSpeed,
+            weaponStats.projDamage,
+            weaponStats.projLifetime,
+            weaponStats.projRange,
+            weaponStats.projGravity,
+            weaponStats.projSpread,
+            weaponStats.projSize,
+            weaponStats.projRotation,
+            weaponStats.projScale,
+            weaponStats.projMass,
+            weaponStats.projBounciness,
+            weaponStats.projFireRate,
+            weaponStats.projRecoil,
+            weaponStats.projSprite,
             this,
-            movementPath//change this with weapon parts
+            weaponStats.movementPath//change this with weapon parts
         );
         projectile.transform.position = transform.position;
         var sr = projectile.gameObject.GetComponent<SpriteRenderer>();
-        if (sr != null) sr.sprite = projSprite;
-        projectile.direction = transform.right; //TODO change this to aim
+        if (sr != null) sr.sprite = projectile.sprite;
+        // target mouse position
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0; // Ensure z is 0 for 2D
+        projectile.direction = (mousePosition - transform.position).normalized;
+        // TODO add controller support
         projectile.gameObject.SetActive(true);
     }
 
 
+}
+
+//struct to hold values for current weapons stats weapon parts should also use it. so that any stat can be added to everything easily.
+[System.Serializable]
+public struct WeaponStats
+{
+    public float fireRate;
+    public FireMode mode;
+    public float accuracy;
+    public ReloadType reloadType;
+    public AmmoType ammoType;
+
+    public float projSpeed;
+    public float projDamage;
+    public float projLifetime;
+    public float projRange;
+    public float projGravity;
+    public float projDrag;
+    public float projSpread;
+    public float projSize;
+    public float projRotation;
+    public float projScale;
+    public float projMass;
+    public float projBounciness;
+    public float projFireRate;
+    public float projRecoil;
+    public Sprite projSprite;
+
+    [System.NonSerialized]
+    public System.Func<Projectile, float, Vector3> movementPath;
+
+    public WeaponStats(
+        float fireRate,
+        FireMode mode,
+        float accuracy,
+        ReloadType reloadType,
+        AmmoType ammoType,
+        float projSpeed,
+        float projDamage,
+        float projLifetime,
+        float projRange,
+        float projGravity,
+        float projDrag,
+        float projSpread,
+        float projSize,
+        float projRotation,
+        float projScale,
+        float projMass,
+        float projBounciness,
+        float projFireRate,
+        float projRecoil,
+        Sprite projSprite,
+        System.Func<Projectile, float, Vector3> movementPath
+    )
+    {
+        this.fireRate = fireRate;
+        this.mode = mode;
+        this.accuracy = accuracy;
+        this.reloadType = reloadType;
+        this.ammoType = ammoType;
+
+        this.projSpeed = projSpeed;
+        this.projDamage = projDamage;
+        this.projLifetime = projLifetime;
+        this.projRange = projRange;
+        this.projGravity = projGravity;
+        this.projDrag = projDrag;
+        this.projSpread = projSpread;
+        this.projSize = projSize;
+        this.projRotation = projRotation;
+        this.projScale = projScale;
+        this.projMass = projMass;
+        this.projBounciness = projBounciness;
+        this.projFireRate = projFireRate;
+        this.projRecoil = projRecoil;
+        this.projSprite = projSprite;
+
+        this.movementPath = movementPath;
+    }
+    public static WeaponStats operator +(WeaponStats a, WeaponStats b)
+    {
+        return new WeaponStats(
+            a.fireRate + b.fireRate,
+            a.mode, // or choose a rule for these enums
+            a.accuracy + b.accuracy,
+            a.reloadType,
+            a.ammoType,
+            a.projSpeed + b.projSpeed,
+            a.projDamage + b.projDamage,
+            a.projLifetime + b.projLifetime,
+            a.projRange + b.projRange,
+            a.projGravity + b.projGravity,
+            a.projDrag + b.projDrag,
+            a.projSpread + b.projSpread,
+            a.projSize + b.projSize,
+            a.projRotation + b.projRotation,
+            a.projScale + b.projScale,
+            a.projMass + b.projMass,
+            a.projBounciness + b.projBounciness,
+            a.projFireRate + b.projFireRate,
+            a.projRecoil + b.projRecoil,
+            a.projSprite ?? b.projSprite,
+            a.movementPath ?? b.movementPath
+        );
+    }
+    public static WeaponStats operator *(WeaponStats a, WeaponStats b)
+    {
+        return new WeaponStats(
+            a.fireRate * b.fireRate,
+            a.mode,
+            a.accuracy * b.accuracy,
+            a.reloadType,
+            a.ammoType,
+            a.projSpeed * b.projSpeed,
+            a.projDamage * b.projDamage,
+            a.projLifetime * b.projLifetime,
+            a.projRange * b.projRange,
+            a.projGravity * b.projGravity,
+            a.projDrag * b.projDrag,
+            a.projSpread * b.projSpread,
+            a.projSize * b.projSize,
+            a.projRotation * b.projRotation,
+            a.projScale * b.projScale,
+            a.projMass * b.projMass,
+            a.projBounciness * b.projBounciness,
+            a.projFireRate * b.projFireRate,
+            a.projRecoil * b.projRecoil,
+            a.projSprite ?? b.projSprite,
+            a.movementPath ?? b.movementPath
+        );
+    }
+    public static WeaponStats operator *(WeaponStats a, float v)
+    {
+        a.fireRate *= v;
+        a.accuracy *= v;
+        a.projSpeed *= v;
+        a.projDamage *= v;
+        a.projLifetime *= v;
+        a.projRange *= v;
+        a.projGravity *= v;
+        a.projDrag *= v;
+        a.projSpread *= v;
+        a.projSize *= v;
+        a.projRotation *= v;
+        a.projScale *= v;
+        a.projMass *= v;
+        a.projBounciness *= v;
+        a.projFireRate *= v;
+        a.projRecoil *= v;
+        return a;
+    }
+    public static WeaponStats operator -(WeaponStats a, WeaponStats b)
+    {
+        return new WeaponStats(
+            a.fireRate - b.fireRate,
+            a.mode,
+            a.accuracy - b.accuracy,
+            a.reloadType,
+            a.ammoType,
+            a.projSpeed - b.projSpeed,
+            a.projDamage - b.projDamage,
+            a.projLifetime - b.projLifetime,
+            a.projRange - b.projRange,
+            a.projGravity - b.projGravity,
+            a.projDrag - b.projDrag,
+            a.projSpread - b.projSpread,
+            a.projSize - b.projSize,
+            a.projRotation - b.projRotation,
+            a.projScale - b.projScale,
+            a.projMass - b.projMass,
+            a.projBounciness - b.projBounciness,
+            a.projFireRate - b.projFireRate,
+            a.projRecoil - b.projRecoil,
+            a.projSprite ?? b.projSprite,
+            a.movementPath ?? b.movementPath
+        );
+    }
 }
