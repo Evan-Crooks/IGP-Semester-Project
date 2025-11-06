@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class WeaponController : MonoBehaviour
 {
@@ -12,8 +13,6 @@ public class WeaponController : MonoBehaviour
     [SerializeField] ReloadType reloadType;
     [SerializeField] AmmoType ammoType;
 
-
-
     [SerializeField]
     private float projSpeed = 10f;
     [SerializeField]
@@ -23,9 +22,9 @@ public class WeaponController : MonoBehaviour
     [SerializeField]
     private float projRange = 20f;
     [SerializeField]
-    private float projGravity = 0f;
+    private float projGravity = 1f;
     [SerializeField]
-    private float projDrag = 0.1f;
+    private float projDrag = 0.1f; //unused rn
     [SerializeField]
     private float projSpread = 0.05f;
     [SerializeField]
@@ -44,8 +43,11 @@ public class WeaponController : MonoBehaviour
     private float projRecoil = 1f;
     [SerializeField]
     private Sprite projSprite = null; // Placeholder for the sprite, can be set later
+    private System.Func<Projectile, float, Vector3> movementPath = Paths.StraightPath;
+
     public ProjectileManager pManager;
 
+    public GameObject weaponObject;
 
     [Header("Weapon Parts")]
     public BarrelPart barrel; // Reference to the Barrel scriptable object
@@ -57,35 +59,33 @@ public class WeaponController : MonoBehaviour
     [Header("Input")]
     public InputAction fireAction; // Input action for firing the weapon
 
+    private float timeSinceFire = 0;
+
+
     void Start()
     {
-        // fireAction = InputSystem.actions.FindAction("Attack");
-        fireAction.Enable();
-        if (barrel != null || magazine != null || stock != null || basePart != null || grip != null)
-        {
-            AssembleWeapon();
-        }
-        else
-        {
-            Debug.LogWarning("Weapon parts are not properly assigned. Please assign at least one part to the weapon.");
-        }
+        weaponObject = GameObject.Find("Player Weapon");
+        if (weaponObject == null) print("player needs gameobject called \"Player Weapon\" to function, \r it should have basic part scripts assigned by default but can be switched.");
+        AssembleWeapon();
     }
-
     void Update()
     {
         timeSinceFire += Time.deltaTime;
-        // Check if the fire action is triggered
-        if (fireAction.WasPressedThisFrame())
-        {
-            Fire();
-        }
     }
-    //old function
-    public void OnAttack(){
+
+    public void OnAttacInput()
+    {
         Fire();
     }
-    private void AssembleWeapon()
+    public void AssembleWeapon()
     {
+        //assign each part
+        basePart = weaponObject.GetComponent<BasePart>();
+        barrel = weaponObject.GetComponent<BarrelPart>();
+        magazine = weaponObject.GetComponent<MagazinePart>();
+        stock = weaponObject.GetComponent<StockPart>();
+        grip = weaponObject.GetComponent<GripPart>();
+
         // Base logic
         if (basePart != null)
         {
@@ -100,8 +100,12 @@ public class WeaponController : MonoBehaviour
             accuracy = basePart.properties.accuracy;
             reloadType = basePart.properties.reloadType;
             ammoType = basePart.properties.ammoType;
-
         }
+        else
+        {
+            Debug.LogWarning("BasePart not found on weaponObject.");
+        }
+
         // Barrel logic
         if (barrel != null)
         {
@@ -109,11 +113,21 @@ public class WeaponController : MonoBehaviour
             projSpread += barrel.properties.spread; // angle projectile spreads out
             projSpeed *= barrel.properties.speedModifier; // usually a negative value (slows projectile)
         }
+        else
+        {
+            Debug.LogWarning("BarrelPart not found on weaponObject.");
+        }
+
         // Magazine logic
         if (magazine != null)
         {
-
+            movementPath = magazine.properties.movementPath;
         }
+        else
+        {
+            Debug.LogWarning("MagazinePart not found on weaponObject.");
+        }
+
         // Stock logic
         if (stock != null)
         {
@@ -122,6 +136,11 @@ public class WeaponController : MonoBehaviour
             // moveStability += stock.properties.moveStabilityModifier; // If moveStability exists
             // staminaHandling += stock.properties.staminaHandlingModifier; // If staminaHandling exists
         }
+        else
+        {
+            Debug.LogWarning("StockPart not found on weaponObject.");
+        }
+
         // Grip logic
         if (grip != null)
         {
@@ -129,14 +148,18 @@ public class WeaponController : MonoBehaviour
             // adsSpeed += grip.properties.adsSpeedModifier; // If adsSpeed exists
             // aimMoveSpeed += grip.properties.aimMoveSpeedModifier; // If aimMoveSpeed exists
         }
+        else
+        {
+            Debug.LogWarning("GripPart not found on weaponObject.");
+        }
     }
 
     // 1/fire rate =
-    private float timeSinceFire = 0;
     void Fire()
     {
         //lock projectile from firing before it should be able to 
         if (timeSinceFire < 1 / fireRate) return;
+        print("fire");
         timeSinceFire = 0;
 
         Projectile projectile = pManager.Next();
@@ -156,14 +179,12 @@ public class WeaponController : MonoBehaviour
             projRecoil,
             projSprite,
             this,
-            Paths.StraightPath
+            movementPath//change this with weapon parts
         );
         projectile.transform.position = transform.position;
         var sr = projectile.gameObject.GetComponent<SpriteRenderer>();
         if (sr != null) sr.sprite = projSprite;
-        // projectile.direction = transform.right; //TODO: aiming.
-        projectile.direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        projectile.direction.Normalize();
+        projectile.direction = transform.right; //TODO change this to aim
         projectile.gameObject.SetActive(true);
     }
 

@@ -85,7 +85,6 @@ public class Projectile : MonoBehaviour
         weaponController = other.weaponController;
     }
 
-    //these are the onX functions they call the onX functions for the weapon parts
     public void onHitEntity()
     {
         weaponController.basePart.onHitEntity(this);
@@ -125,14 +124,14 @@ public class Projectile : MonoBehaviour
     public void Expire()
     {
         onExpire();
-        ResetAtEndOfFrame();
+        ResetEndOfFrame();
     }
-    public void ResetAtEndOfFrame()
+    public void ResetEndOfFrame()
     {
-        StartCoroutine(ResetAtEndOfFrameCoroutine());
+        StartCoroutine(ResetEndOfFrameCoroutine());
     }
 
-    private System.Collections.IEnumerator ResetAtEndOfFrameCoroutine()
+    private System.Collections.IEnumerator ResetEndOfFrameCoroutine()
     {
         yield return new WaitForEndOfFrame();
         Reset();

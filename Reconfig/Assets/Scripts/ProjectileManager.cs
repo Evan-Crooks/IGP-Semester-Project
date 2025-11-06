@@ -1,6 +1,3 @@
-//projectile manager, controls movement of all projecjtiles, 
-
-
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -9,13 +6,10 @@ public class ProjectileManager : MonoBehaviour
     [SerializeField]
     private List<Projectile> activeProjectiles = new();
     private Queue<Projectile> inactiveProjectiles = new();
-
     void Update()
     {
         // Move projectiles and expire them if needed, without modifying the list during iteration.
         List<Projectile> toExpire = new();
-
-        //if performance becomes an issue make this multithreaded it will healp.
         foreach (Projectile p in activeProjectiles)
         {
             if (p.gameObject.activeSelf)
@@ -64,16 +58,16 @@ public class ProjectileManager : MonoBehaviour
     GameObject GenerateProjectileObj()
     {
         GameObject projectileObj = new("Projectile");
-        projectileObj.AddComponent<CircleCollider2D>();
+        CircleCollider2D collider = projectileObj.AddComponent<CircleCollider2D>();
+        collider.isTrigger = true;
         Rigidbody2D rb = projectileObj.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.simulated = true;
         rb.useFullKinematicContacts = true;
         rb.gravityScale = 0f;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         projectileObj.AddComponent<SpriteRenderer>();
         projectileObj.transform.parent = transform;
-
         return projectileObj;
     }
 

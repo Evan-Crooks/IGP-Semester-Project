@@ -18,7 +18,7 @@ public static class Paths
     public static Vector3 GravityPath(Projectile p, float dt)
     {
         Vector2 velocity = p.direction * p.speed;
-        float gravityEffect = p.gravity * dt;
+        float gravityEffect = p.gravity * p.age; //more gravity the longer the projectile is alive to simulate acceleration
         return p.transform.position + new Vector3(velocity.x, velocity.y - gravityEffect, 0) * dt;
     }
 
