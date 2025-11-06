@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Interact : MonoBehaviour
@@ -13,120 +15,78 @@ public class Interact : MonoBehaviour
     {
         if (interactionTarget != null)
         {
+            // Capture the original pickup so new triggers (e.g., from DropPart) don't overwrite it
+            var pickedTarget = interactionTarget;
             var wc = gameObject.GetComponent<WeaponController>();
             GameObject weaponObject = wc.weaponObject;
 
             switch (interactionTarget.type)
             {
-                case InteractionType.BasePart:
-                    {
-                        BasePart old = weaponObject.GetComponent<BasePart>();
-                        if (old != null) Destroy(old);
-                        System.Type t = interactionTarget.component.GetType();
-                        BasePart added = (BasePart)weaponObject.AddComponent(t);
-                        added.properties = ((BasePart)interactionTarget.component).properties;
-                        break;
-                    }
-                case InteractionType.Barrel:
-                    {
-                        BarrelPart old = weaponObject.GetComponent<BarrelPart>();
-                        if (old != null) Destroy(old);
-                        System.Type t = interactionTarget.component.GetType();
-                        BarrelPart added = (BarrelPart)weaponObject.AddComponent(t);
-                        added.properties = ((BarrelPart)interactionTarget.component).properties;
-                        break;
-                    }
                 case InteractionType.Magazine:
                     {
-                        MagazinePart old = weaponObject.GetComponent<MagazinePart>();
-                        if (old != null) Destroy(old);
-                        System.Type t = interactionTarget.component.GetType();
-                        MagazinePart added = (MagazinePart)weaponObject.AddComponent(t);
-                        added.properties = ((MagazinePart)interactionTarget.component).properties;
-                        break;
-                    }
-                case InteractionType.Stock:
-                    {
-                        StockPart old = weaponObject.GetComponent<StockPart>();
-                        if (old != null) Destroy(old);
-                        System.Type t = interactionTarget.component.GetType();
-                        StockPart added = (StockPart)weaponObject.AddComponent(t);
-                        added.properties = ((StockPart)interactionTarget.component).properties;
-                        break;
-                    }
-                case InteractionType.Grip:
-                    {
-                        GripPart old = weaponObject.GetComponent<GripPart>();
-                        if (old != null) Destroy(old);
-                        System.Type t = interactionTarget.component.GetType();
-                        GripPart added = (GripPart)weaponObject.AddComponent(t);
-                        added.properties = ((GripPart)interactionTarget.component).properties;
+                        dropPart(weaponObject.GetComponent<MagazinePart>()); //drop old part
+                        Type newPartType = interactionTarget.component.GetType();
+                        print($"picking up a {newPartType}"); //print type of new part
+                        MagazinePart newPart = (MagazinePart)weaponObject.AddComponent(newPartType); //add new component
+                        newPart.properties = ((MagazinePart)interactionTarget.component).properties; //copy properties from pickup
+                        DestroyImmediate(interactionTarget.gameObject);
+
                         break;
                     }
             }
-
             wc.AssembleWeapon();
         }
     }
-    void DropPart(WeaponPart part)
+    void dropPart(WeaponPart partToDrop)
     {
-        if (part == null) return;
-        var wc = gameObject.GetComponent<WeaponController>();
-        if (wc == null) return;
-
-        InteractionType type;
-        if (part is BasePart) type = InteractionType.BasePart;
-        else if (part is BarrelPart) type = InteractionType.Barrel;
-        else if (part is MagazinePart) type = InteractionType.Magazine;
-        else if (part is StockPart) type = InteractionType.Stock;
-        else if (part is GripPart) type = InteractionType.Grip;
-        else return;
-
-        GameObject go = new GameObject($"{type} Pickup");
-        go.transform.position = transform.position + transform.right * 0.5f;
-
-        var sr = go.AddComponent<SpriteRenderer>();
-        sr.sprite = part.sprite;
-
-        var rb = go.AddComponent<Rigidbody2D>();
-        rb.gravityScale = 1f;
-        var col = go.AddComponent<CircleCollider2D>();
-        col.isTrigger = true;
-
-        System.Type concreteType = part.GetType();
-        var newComp = go.AddComponent(concreteType);
-
-        if (newComp is WeaponPart wpDst && part is WeaponPart wpSrc)
+        GameObject newPickupObject = new GameObject($"{partToDrop.GetType()} pickup");
+        newPickupObject.transform.position = transform.position; //position set to players position
+        Interactable newInter = newPickupObject.AddComponent<Interactable>();
+        //create a copy of the part to drop copmonent on the new to drop object.
+        if (partToDrop is MagazinePart)
         {
-            wpDst.sprite = wpSrc.sprite;
+            Type partType = partToDrop.GetType();
+            MagazinePart newComp = (MagazinePart)newPickupObject.AddComponent(partType);
+            newComp.properties = ((MagazinePart)partToDrop).properties;
+            newInter.type = InteractionType.Magazine;
+            newInter.component = newComp;
         }
-        if (newComp is BasePart bpDst && part is BasePart bpSrc)
+        else if (partToDrop is BarrelPart)
         {
-            bpDst.properties = bpSrc.properties;
+            Type partType = partToDrop.GetType();
+            BarrelPart newComp = (BarrelPart)newPickupObject.AddComponent(partType);
+            newComp.properties = ((BarrelPart)partToDrop).properties;
+            newInter.type = InteractionType.Barrel;
+            newInter.component = newComp;
         }
-        else if (newComp is BarrelPart blDst && part is BarrelPart blSrc)
+        else if (partToDrop is BasePart)
         {
-            blDst.properties = blSrc.properties;
+            Type partType = partToDrop.GetType();
+            BasePart newComp = (BasePart)newPickupObject.AddComponent(partType);
+            newComp.properties = ((BasePart)partToDrop).properties;
+            newInter.type = InteractionType.BasePart;
+            newInter.component = newComp;
         }
-        else if (newComp is MagazinePart mgDst && part is MagazinePart mgSrc)
+        else if (partToDrop is GripPart)
         {
-            mgDst.properties = mgSrc.properties;
-            mgDst.projectileSprite = mgSrc.projectileSprite;
+            Type partType = partToDrop.GetType();
+            GripPart newComp = (GripPart)newPickupObject.AddComponent(partType);
+            newComp.properties = ((GripPart)partToDrop).properties;
+            newInter.type = InteractionType.Grip;
+            newInter.component = newComp;
         }
-        else if (newComp is StockPart stDst && part is StockPart stSrc)
+        else if (partToDrop is StockPart)
         {
-            stDst.properties = stSrc.properties;
+            Type partType = partToDrop.GetType();
+            StockPart newComp = (StockPart)newPickupObject.AddComponent(partType);
+            newComp.properties = ((StockPart)partToDrop).properties;
+            newInter.type = InteractionType.Stock;
+            newInter.component = newComp;
         }
-        else if (newComp is GripPart gpDst && part is GripPart gpSrc)
+        else
         {
-            gpDst.properties = gpSrc.properties;
+            print("invalid part type");
         }
-
-        var interactable = go.AddComponent<Interactable>();
-        interactable.type = type;
-        interactable.component = (Component)newComp;
-
-        Destroy(part);
-        wc.AssembleWeapon();
+        DestroyImmediate(partToDrop);
     }
 }
