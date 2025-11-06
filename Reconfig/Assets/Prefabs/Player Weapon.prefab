@@ -1,0 +1,427 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6517618369639184109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2967296996886949680}
+  - component: {fileID: 8172953860370889445}
+  - component: {fileID: 2007540548552750362}
+  - component: {fileID: 288292253118086513}
+  - component: {fileID: 2343004972619805364}
+  - component: {fileID: 6826862771772632854}
+  m_Layer: 0
+  m_Name: Player Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2967296996886949680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517618369639184109}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.3410074, y: -1.0975226, z: 0.022137037}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8172953860370889445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517618369639184109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee22a48fd11e2644a8b758bf6265baef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  rarity: 0
+  minCoeff:
+    fireRate: 0
+    mode: 0
+    accuracy: 0
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 0
+    projDamage: 0
+    projLifetime: 0
+    projRange: 0
+    projGravity: 0
+    projDrag: 0
+    projSpread: 0
+    projSize: 0
+    projRotation: 0
+    projScale: 0
+    projMass: 0
+    projBounciness: 0
+    projFireRate: 0
+    projRecoil: 0
+    projSprite: {fileID: 0}
+  maxCoeff:
+    fireRate: 1
+    mode: 0
+    accuracy: 1
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 1
+    projDamage: 1
+    projLifetime: 1
+    projRange: 1
+    projGravity: 1
+    projDrag: 1
+    projSpread: 1
+    projSize: 1
+    projRotation: 0
+    projScale: 1
+    projMass: 1
+    projBounciness: 1
+    projFireRate: 1
+    projRecoil: 1
+    projSprite: {fileID: 0}
+  properties:
+    fireRate: 0
+    mode: 0
+    accuracy: 0
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 0
+    projDamage: 0
+    projLifetime: 0
+    projRange: 0
+    projGravity: 0
+    projDrag: 0
+    projSpread: 0
+    projSize: 0
+    projRotation: 0
+    projScale: 0
+    projMass: 0
+    projBounciness: 0
+    projFireRate: 0
+    projRecoil: 0
+    projSprite: {fileID: 0}
+--- !u!114 &2007540548552750362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517618369639184109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cdc988af38740843a6b1db0632c7365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  rarity: 0
+  minCoeff:
+    fireRate: 0
+    mode: 0
+    accuracy: 0
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 0
+    projDamage: 0
+    projLifetime: 0
+    projRange: 0
+    projGravity: 0
+    projDrag: 0
+    projSpread: 0
+    projSize: 0
+    projRotation: 0
+    projScale: 0
+    projMass: 0
+    projBounciness: 0
+    projFireRate: 0
+    projRecoil: 0
+    projSprite: {fileID: 0}
+  maxCoeff:
+    fireRate: 10
+    mode: 0
+    accuracy: 10
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 10
+    projDamage: 10
+    projLifetime: 10
+    projRange: 10
+    projGravity: 10
+    projDrag: 10
+    projSpread: 10
+    projSize: 10
+    projRotation: 10
+    projScale: 10
+    projMass: 10
+    projBounciness: 10
+    projFireRate: 10
+    projRecoil: 10
+    projSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  properties:
+    fireRate: 0
+    mode: 0
+    accuracy: 0
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 0
+    projDamage: 0
+    projLifetime: 0
+    projRange: 0
+    projGravity: 0
+    projDrag: 0
+    projSpread: 0
+    projSize: 0
+    projRotation: 0
+    projScale: 0
+    projMass: 0
+    projBounciness: 0
+    projFireRate: 0
+    projRecoil: 0
+    projSprite: {fileID: 0}
+  mode: 0
+  reloadType: 0
+  ammoType: 0
+--- !u!114 &288292253118086513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517618369639184109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502fe3cad194d3143a9ffe52551f28fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  rarity: 0
+  minCoeff:
+    fireRate: 10
+    mode: 0
+    accuracy: 10
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 10
+    projDamage: 10
+    projLifetime: 10
+    projRange: 10
+    projGravity: 10
+    projDrag: 10
+    projSpread: 10
+    projSize: 10
+    projRotation: 10
+    projScale: 10
+    projMass: 10
+    projBounciness: 10
+    projFireRate: 10
+    projRecoil: 10
+    projSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  maxCoeff:
+    fireRate: 10
+    mode: 0
+    accuracy: 10
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 10
+    projDamage: 10
+    projLifetime: 10
+    projRange: 10
+    projGravity: 10
+    projDrag: 10
+    projSpread: 10
+    projSize: 10
+    projRotation: 10
+    projScale: 10
+    projMass: 10
+    projBounciness: 10
+    projFireRate: 10
+    projRecoil: 10
+    projSprite: {fileID: 0}
+  properties:
+    fireRate: 0
+    mode: 0
+    accuracy: 0
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 0
+    projDamage: 0
+    projLifetime: 0
+    projRange: 0
+    projGravity: 0
+    projDrag: 0
+    projSpread: 0
+    projSize: 0
+    projRotation: 0
+    projScale: 0
+    projMass: 0
+    projBounciness: 0
+    projFireRate: 0
+    projRecoil: 0
+    projSprite: {fileID: 0}
+--- !u!114 &2343004972619805364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517618369639184109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb91344b401a2e42bc59bcf6576824a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  rarity: 0
+  minCoeff:
+    fireRate: 1
+    mode: 0
+    accuracy: 1
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 0
+    projDamage: 11
+    projLifetime: 0
+    projRange: 1
+    projGravity: 1
+    projDrag: 1
+    projSpread: 1
+    projSize: 0
+    projRotation: 1
+    projScale: 1
+    projMass: 1
+    projBounciness: 1
+    projFireRate: 1
+    projRecoil: 1
+    projSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  maxCoeff:
+    fireRate: 1
+    mode: 0
+    accuracy: 1
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 1
+    projDamage: 1
+    projLifetime: 1
+    projRange: 1
+    projGravity: 1
+    projDrag: 1
+    projSpread: 1
+    projSize: 1
+    projRotation: 1
+    projScale: 1
+    projMass: 1
+    projBounciness: 1
+    projFireRate: 1
+    projRecoil: 1
+    projSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  properties:
+    fireRate: 0
+    mode: 0
+    accuracy: 0
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 0
+    projDamage: 0
+    projLifetime: 0
+    projRange: 0
+    projGravity: 0
+    projDrag: 0
+    projSpread: 0
+    projSize: 0
+    projRotation: 0
+    projScale: 0
+    projMass: 0
+    projBounciness: 0
+    projFireRate: 0
+    projRecoil: 0
+    projSprite: {fileID: 0}
+  magType: 0
+--- !u!114 &6826862771772632854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517618369639184109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50bea0f4e9f40349884fc7356abfd3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  rarity: 0
+  minCoeff:
+    fireRate: 1
+    mode: 0
+    accuracy: 1
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 1
+    projDamage: 1
+    projLifetime: 1
+    projRange: 1
+    projGravity: 1
+    projDrag: 1
+    projSpread: 1
+    projSize: 1
+    projRotation: 1
+    projScale: 1
+    projMass: 1
+    projBounciness: 1
+    projFireRate: 1
+    projRecoil: 1
+    projSprite: {fileID: 0}
+  maxCoeff:
+    fireRate: 1
+    mode: 0
+    accuracy: 1
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 1
+    projDamage: 1
+    projLifetime: 1
+    projRange: 1
+    projGravity: 1
+    projDrag: 1
+    projSpread: 1
+    projSize: 1
+    projRotation: 1
+    projScale: 1
+    projMass: 1
+    projBounciness: 1
+    projFireRate: 1
+    projRecoil: 1
+    projSprite: {fileID: 0}
+  properties:
+    fireRate: 0
+    mode: 0
+    accuracy: 0
+    reloadType: 0
+    ammoType: 0
+    projSpeed: 0
+    projDamage: 0
+    projLifetime: 0
+    projRange: 0
+    projGravity: 0
+    projDrag: 0
+    projSpread: 0
+    projSize: 0
+    projRotation: 0
+    projScale: 0
+    projMass: 0
+    projBounciness: 0
+    projFireRate: 0
+    projRecoil: 0
+    projSprite: {fileID: 0}

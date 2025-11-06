@@ -35,7 +35,6 @@ public class Projectile : MonoBehaviour
         float scale,
         float mass,
         float bounciness,
-        float fireRate,
         float recoil,
         Sprite sprite,
         WeaponController weaponController,
@@ -54,7 +53,6 @@ public class Projectile : MonoBehaviour
         this.scale = scale;
         this.mass = mass;
         this.bounciness = bounciness;
-        this.fireRate = fireRate;
         this.recoil = recoil;
         this.sprite = sprite;
         this.weaponController = weaponController;
@@ -78,7 +76,6 @@ public class Projectile : MonoBehaviour
         scale = other.scale;
         mass = other.mass;
         bounciness = other.bounciness;
-        fireRate = other.fireRate;
         recoil = other.recoil;
         sprite = other.sprite;
         movementPath = other.movementPath;

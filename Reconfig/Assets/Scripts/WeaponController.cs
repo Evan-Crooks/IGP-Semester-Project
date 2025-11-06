@@ -44,62 +44,31 @@ public class WeaponController : MonoBehaviour
     }
     public void AssembleWeapon()
     {
+        print("assemble weapon");
         //assign each part
         basePart = weaponObject.GetComponent<BasePart>();
+        print(weaponObject.GetComponents<WeaponPart>());
+
+
         barrel = weaponObject.GetComponent<BarrelPart>();
         magazine = weaponObject.GetComponent<MagazinePart>();
         stock = weaponObject.GetComponent<StockPart>();
         grip = weaponObject.GetComponent<GripPart>();
 
+        print("assemble weapon 2");
         // Base logic
-        if (basePart != null)
-        {
-            weaponStats = basePart.properties;
-        }
-        else
-        {
-            Debug.LogWarning("BasePart not found on weaponObject.");
-        }
-
-        // Barrel logic
-        if (barrel != null)
-        {
-            weaponStats += weaponStats * barrel.properties;
-        }
-        else
-        {
-            Debug.LogWarning("BarrelPart not found on weaponObject.");
-        }
-
-        // Magazine logic
-        if (magazine != null)
-        {
-            weaponStats += weaponStats * magazine.properties;
-        }
-        else
-        {
-            Debug.LogWarning("MagazinePart not found on weaponObject.");
-        }
-
-        // Stock logic
-        if (stock != null)
-        {
-            weaponStats += weaponStats * stock.properties;
-        }
-        else
-        {
-            Debug.LogWarning("StockPart not found on weaponObject.");
-        }
-
+        weaponStats = basePart.properties;
+        print($"properties {basePart.properties.fireRate}");
+        //Barrel logic
+        weaponStats += barrel.properties;
+        //magazine  
+        weaponStats += magazine.properties;
+        //stock
+        weaponStats += stock.properties;
         // Grip logic
-        if (grip != null)
-        {
-            weaponStats += weaponStats * grip.properties;
-        }
-        else
-        {
-            Debug.LogWarning("GripPart not found on weaponObject.");
-        }
+        weaponStats += grip.properties;
+        print("assemble weapon 3");
+        weaponStats.projSprite = magazine.properties.projSprite;
     }
 
     // 1/fire rate =
@@ -124,14 +93,14 @@ public class WeaponController : MonoBehaviour
             weaponStats.projScale,
             weaponStats.projMass,
             weaponStats.projBounciness,
-            weaponStats.projFireRate,
+
             weaponStats.projRecoil,
             weaponStats.projSprite,
             this,
             weaponStats.movementPath//change this with weapon parts
         );
         projectile.transform.position = transform.position;
-        var sr = projectile.gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer sr = projectile.gameObject.GetComponent<SpriteRenderer>();
         if (sr != null) sr.sprite = projectile.sprite;
         // target mouse position
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
