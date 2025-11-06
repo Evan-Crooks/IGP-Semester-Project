@@ -23,17 +23,6 @@ public class Room
         this.bottom = bottom;
     }
 
-    public void Draw(Tilemap tilemap)
-    {
-        for(int x = left; x <= right; x++)
-        {
-            for(int  y = bottom; y <= top; y++)
-            {
-                tilemap.SetTile(new Vector3Int(x, y, 0), null);
-            }
-        }
-    }
-
     public int GetLeft()
     {
         return left;

@@ -213,8 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5a5e447f29ecb5458d7b3731cbcc9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 200
-  height: 200
+  m_width: 200
+  m_height: 200
   maxDepth: 5
   minRoomHeight: 10
   minRoomWidth: 20
