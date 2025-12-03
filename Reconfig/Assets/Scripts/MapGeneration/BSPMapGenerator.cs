@@ -32,7 +32,6 @@ public class BSPMapGenerator : MonoBehaviour
         FillWithWalls();
         ConnectRooms(root);
         DrawRooms(root);
-
     }
 
 
