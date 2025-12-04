@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,7 +8,24 @@ public abstract class WeaponPart : MonoBehaviour
     public Sprite sprite;
 
     public RarityLevel rarity;
-    public WeaponStats minCoeff, maxCoeff, properties;
+
+    //COEFFS SHOULD BE OVERRIDEN either in editor or in child classes
+    public WeaponStats minCoeff;
+    public WeaponStats maxCoeff = new WeaponStats(
+        1f,                // fireRate
+        FireMode.single,   // mode
+        1f,                // accuracy
+        ReloadType.single, // reloadType
+        AmmoType.projectile,
+        1f, 1f, 1f, 1f,    // projSpeed, projDamage, projLifetime, projRange
+        1f, 1f, 1f, 1f,    // projGravity, projDrag, projSpread, projSize
+        1f, 1f, 1f, 1f,    // projRotation, projScale, projMass, projBounciness
+        1f, 1f,            // projFireRate, projRecoil
+        null,              // projSprite
+        Paths.StraightPath // movementPath
+    );
+    
+    public WeaponStats properties;
 
 
     protected void Awake()

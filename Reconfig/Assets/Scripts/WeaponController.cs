@@ -29,8 +29,8 @@ public class WeaponController : MonoBehaviour
 
     void Start()
     {
-        weaponObject = GameObject.Find("Player Weapon");
-        if (weaponObject == null) print("player needs gameobject called \"Player Weapon\" to function, \r it should have basic part scripts assigned by default but can be switched.");
+        weaponObject = gameObject;
+        pManager = GameObject.FindWithTag("Projectile Manager").GetComponent<ProjectileManager>();
         AssembleWeapon();
     }
     void Update()
@@ -40,8 +40,11 @@ public class WeaponController : MonoBehaviour
 
     public void OnAttacInput()
     {
-        Fire();
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0; // Ensure z is 0 for 2D
+        Fire((mousePosition - transform.position).normalized);
     }
+
     public void AssembleWeapon()
     {
         print("assemble weapon");
@@ -71,8 +74,8 @@ public class WeaponController : MonoBehaviour
         weaponStats.projSprite = magazine.properties.projSprite;
     }
 
-    // 1/fire rate =
-    void Fire()
+    // 1/fire rate = time between shot
+    public void Fire(Vector2 direction)
     {
         // TODO fire rate is limited by frame rate should not be in the future.
         //lock projectile from firing before it should be able to 
@@ -103,9 +106,8 @@ public class WeaponController : MonoBehaviour
         SpriteRenderer sr = projectile.gameObject.GetComponent<SpriteRenderer>();
         if (sr != null) sr.sprite = projectile.sprite;
         // target mouse position
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0; // Ensure z is 0 for 2D
-        projectile.direction = (mousePosition - transform.position).normalized;
+
+        projectile.direction = direction; 
         // TODO add controller support
         projectile.gameObject.SetActive(true);
     }

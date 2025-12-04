@@ -1,7 +1,10 @@
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Projectile : MonoBehaviour
 {
+    
     public float speed;
     public Vector2 direction;
     public float damage;
@@ -161,12 +164,11 @@ public class Projectile : MonoBehaviour
 
 
     }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {
+    void OnTriggerEnter2D(Collider2D other) {
+        string ownerTag = weaponController.gameObject.tag;
         print($"Gameobject: {other.gameObject.name}, with tag: \"{other.gameObject.tag}\"");
+        if (ownerTag != "Enemy" && other.gameObject.CompareTag("Enemy")) { other.gameObject.GetComponent<Health>().DealDamage((int)damage, 1); onHitEntity(); }
+        if (ownerTag != "Player"  && other.gameObject.CompareTag("Player")) { other.gameObject.GetComponent<PlayerHealth>().TakeDamage((int)damage, direction); }
         if (other.gameObject.CompareTag("Terrain")) { onHitEnvironment(); }
-        if (other.gameObject.CompareTag("Enemy")) { other.gameObject.GetComponent<Health>().DealDamage((int)damage, 1); onHitEntity(); }
-
     }
 }
