@@ -12,6 +12,7 @@ public class BSPMapGenerator : MonoBehaviour
     public int m_width = 50;
     public int m_height = 50;
     public int maxDepth = 6;
+    public GameObject player;
 
     //min height and min width
     public int minRoomHeight = 10;
@@ -32,6 +33,9 @@ public class BSPMapGenerator : MonoBehaviour
         FillWithWalls();
         ConnectRooms(root);
         DrawRooms(root);
+        //place player in map
+        Vector3 spawnPos = FindEmptySpot();
+        player.transform.position = spawnPos;
     }
 
 
@@ -442,6 +446,21 @@ public class BSPMapGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    public Vector3 FindEmptySpot()
+    {
+        for(int i = 0; i < m_width; i++)
+        {
+            for(int j = 0; j < m_height; j++)
+            {
+                if(tilemap.GetTile(new Vector3Int(i, j, 0)) == null)
+                {
+                    return tilemap.CellToWorld(new Vector3Int(i, j, 0)) + new Vector3(0.5f, 0.5f, 0f);
+                }
+            }
+        }
+        return Vector3.zero;
     }
 
     void addColumns(Room room, int numberOfColumns)
