@@ -1,18 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using Unity.Mathematics;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using UnityEngine.U2D;
-using System;
-using Unity.Mathematics;
 public class BSPMapGenerator : MonoBehaviour
 {
     public int m_width = 50;
     public int m_height = 50;
     public int maxDepth = 6;
     public GameObject player;
+    public GameObject enemyPrefab;
 
     //min height and min width
     public int minRoomHeight = 10;
@@ -33,6 +35,8 @@ public class BSPMapGenerator : MonoBehaviour
         FillWithWalls();
         ConnectRooms(root);
         DrawRooms(root);
+        //spawn enemies
+        SpawnEnemies();
         //place player in map
         Vector3 spawnPos = FindEmptySpot();
         player.transform.position = spawnPos;
@@ -461,6 +465,46 @@ public class BSPMapGenerator : MonoBehaviour
             }
         }
         return Vector3.zero;
+    }
+
+    void SpawnEnemies()
+    {
+        int enemyCount = 20;
+        for(int i = 0; i < enemyCount; i++)
+        {
+            for(int tries = 0; tries < 1000; tries++)
+            {
+                int x = UnityEngine.Random.Range(0, m_width);
+                int y = UnityEngine.Random.Range(0, m_height);
+                Vector3Int cellPos = new Vector3Int(x, y, 0);
+
+                //spawn if empty tile
+                if (tilemap.GetTile(cellPos) == null)
+                {
+                    Vector3 worldPos = tilemap.CellToWorld(cellPos) + new Vector3(0.5f, 0.5f, 0);
+                    GameObject enemy = Instantiate(enemyPrefab, worldPos, Quaternion.identity);
+
+                    // Find PointA and PointB in prefab
+                    Transform pointA = enemy.transform.Find("PointA");
+                    Transform pointB = enemy.transform.Find("PointB");
+
+                    if (pointA == null) { pointA = new GameObject("PointA").transform; pointA.parent = enemy.transform; }
+                    if (pointB == null) { pointB = new GameObject("PointB").transform; pointB.parent = enemy.transform; }
+
+                    //scan left/right until walls
+                    int xLeft = x;
+                    while (xLeft > 0 && tilemap.GetTile(new Vector3Int(xLeft - 1, y, 0)) == null) xLeft--;
+                    int xRight = x;
+                    while (xRight < m_width - 1 && tilemap.GetTile(new Vector3Int(xRight + 1, y, 0)) == null) xRight++;
+
+                    pointA.position = tilemap.CellToWorld(new Vector3Int(xLeft, y, 0)) + new Vector3(0.5f, 0.5f, 0);
+                    pointB.position = tilemap.CellToWorld(new Vector3Int(xRight, y, 0)) + new Vector3(0.5f, 0.5f, 0);
+
+                    //go to next enemy to spawn
+                    break;
+                }
+            }
+        }
     }
 
     void addColumns(Room room, int numberOfColumns)
