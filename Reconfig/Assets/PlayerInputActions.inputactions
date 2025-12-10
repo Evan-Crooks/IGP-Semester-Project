@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "PlayerInputActions",
     "maps": [
         {
@@ -36,6 +37,15 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "c32048cb-17bb-46eb-af19-db06ac32ead3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Grapple",
+                    "type": "Button",
+                    "id": "d1669a08-fbe5-443e-898c-ef6f2497ddd0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -271,6 +281,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4544422f-dafc-44f9-b069-b00ecd01ea63",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grapple",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

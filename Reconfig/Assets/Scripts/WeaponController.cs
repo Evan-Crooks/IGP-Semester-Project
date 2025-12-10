@@ -47,7 +47,6 @@ public class WeaponController : MonoBehaviour
 
     public void AssembleWeapon()
     {
-        print("assemble weapon");
         //assign each part
         basePart = weaponObject.GetComponent<BasePart>();
         print(weaponObject.GetComponents<WeaponPart>());
@@ -58,10 +57,8 @@ public class WeaponController : MonoBehaviour
         stock = weaponObject.GetComponent<StockPart>();
         grip = weaponObject.GetComponent<GripPart>();
 
-        print("assemble weapon 2");
         // Base logic
         weaponStats = basePart.properties;
-        print($"properties {basePart.properties.fireRate}");
         //Barrel logic
         weaponStats += barrel.properties;
         //magazine  
@@ -70,7 +67,6 @@ public class WeaponController : MonoBehaviour
         weaponStats += stock.properties;
         // Grip logic
         weaponStats += grip.properties;
-        print("assemble weapon 3");
         weaponStats.projSprite = magazine.properties.projSprite;
     }
 

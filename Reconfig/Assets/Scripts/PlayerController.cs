@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundLayer;
     private float horizontal;
-    private float speed = 8f;
+    [SerializeField] float speed = 8f;
     public float jumpingPower = 8f;//
     public bool movedSinceKnockback = false;
 
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         {
             if (movedSinceKnockback == true)
             {
-                rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+                rb.velocity += new Vector2(horizontal * speed, 0);
             }
         }
         else
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("IsGrounded: " + IsGrounded());
         if (context.performed && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            rb.velocity += Vector2.up*jumpingPower;
         }
     }
 
