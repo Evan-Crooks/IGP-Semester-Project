@@ -25,6 +25,14 @@ public class Grapple : MonoBehaviour
         ttd = timeToDeath;
         this.speed = speed;
         active = true;
+
+        if (this.direction != Vector2.zero)
+        {
+            // Sprite faces up at 0 deg; subtract 90 to align with direction (so right points right)
+            float angle = Mathf.Atan2(this.direction.y, this.direction.x) * Mathf.Rad2Deg - 90f;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        }
+
         // Ignore collision with the owner so only terrain stops the grapple
         if (col != null && owner != null)
         {
@@ -34,10 +42,6 @@ public class Grapple : MonoBehaviour
                 Physics2D.IgnoreCollision(col, ownerCol, true);
             }
         }
-        if (rb != null)
-        {
-            rb.velocity = this.direction * this.speed;
-        }
     }
 
     void Update()
@@ -46,12 +50,6 @@ public class Grapple : MonoBehaviour
         {
             if (ttd <= 0f || direction == Vector2.zero)
                 return;
-
-            if (rb == null)
-            {
-                // Fallback if no Rigidbody2D is attached
-                transform.position += (Vector3)(direction * speed * Time.deltaTime);
-            }
 
             ttd -= Time.deltaTime;
 
@@ -65,6 +63,22 @@ public class Grapple : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (!active || direction == Vector2.zero)
+            return;
+
+        Vector2 newPos = (Vector2)transform.position + direction * speed * Time.fixedDeltaTime;
+        if (rb != null)
+        {
+            rb.MovePosition(newPos);
+        }
+        else
+        {
+            transform.position = newPos;
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         print($"grapple hit {other.gameObject.name}");
@@ -74,7 +88,6 @@ public class Grapple : MonoBehaviour
             owner.grappleResult(true);
             direction = Vector2.zero;
             active = false;
-            if (rb != null) rb.velocity = Vector2.zero;
         }
     }
 }

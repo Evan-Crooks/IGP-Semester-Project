@@ -49,9 +49,6 @@ public class WeaponController : MonoBehaviour
     {
         //assign each part
         basePart = weaponObject.GetComponent<BasePart>();
-        print(weaponObject.GetComponents<WeaponPart>());
-
-
         barrel = weaponObject.GetComponent<BarrelPart>();
         magazine = weaponObject.GetComponent<MagazinePart>();
         stock = weaponObject.GetComponent<StockPart>();
