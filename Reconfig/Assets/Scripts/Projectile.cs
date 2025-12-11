@@ -167,7 +167,11 @@ public class Projectile : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other) {
         string ownerTag = weaponController.gameObject.tag;
         print($"Gameobject: {other.gameObject.name}, with tag: \"{other.gameObject.tag}\"");
-        if (ownerTag != "Enemy" && other.gameObject.CompareTag("Enemy")) { other.gameObject.GetComponent<Health>().DealDamage((int)damage, 1); onHitEntity(); }
+        //For dealing with logic when we have enemy
+        if (ownerTag != "Enemy" && other.gameObject.CompareTag("Enemy")) { 
+            other.gameObject.GetComponent<Health>().DealDamage((int)damage, 1); 
+            onHitEntity(); 
+        }
         if (ownerTag != "Player"  && other.gameObject.CompareTag("Player")) { other.gameObject.GetComponent<PlayerHealth>().TakeDamage((int)damage, direction); }
         if (other.gameObject.CompareTag("Terrain")) { onHitEnvironment(); }
     }

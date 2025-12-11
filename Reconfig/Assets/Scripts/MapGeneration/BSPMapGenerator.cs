@@ -15,6 +15,7 @@ public class BSPMapGenerator : MonoBehaviour
     public int maxDepth = 6;
     public GameObject player;
     public GameObject enemyPrefab;
+    public AStar astarScript;
 
     //min height and min width
     public int minRoomHeight = 10;
@@ -41,6 +42,11 @@ public class BSPMapGenerator : MonoBehaviour
         //place player in map
         Vector3 spawnPos = FindEmptySpot();
         player.transform.position = spawnPos;
+        //have astar build the grid
+        if(astarScript != null)
+        {
+            astarScript.BuildGrid();
+        }
 
         reColorTiles.ReplaceExposedTiles();
     }
@@ -472,7 +478,7 @@ public class BSPMapGenerator : MonoBehaviour
 
     void SpawnEnemies()
     {
-        int enemyCount = 20;
+        int enemyCount = 10;
         for(int i = 0; i < enemyCount; i++)
         {
             for(int tries = 0; tries < 1000; tries++)
@@ -486,22 +492,6 @@ public class BSPMapGenerator : MonoBehaviour
                 {
                     Vector3 worldPos = tilemap.CellToWorld(cellPos) + new Vector3(0.5f, 0.5f, 0);
                     GameObject enemy = Instantiate(enemyPrefab, worldPos, Quaternion.identity);
-
-                    // Find PointA and PointB in prefab
-                    Transform pointA = enemy.transform.Find("PointA");
-                    Transform pointB = enemy.transform.Find("PointB");
-
-                    if (pointA == null) { pointA = new GameObject("PointA").transform; pointA.parent = enemy.transform; }
-                    if (pointB == null) { pointB = new GameObject("PointB").transform; pointB.parent = enemy.transform; }
-
-                    //scan left/right until walls
-                    int xLeft = x;
-                    while (xLeft > 0 && tilemap.GetTile(new Vector3Int(xLeft - 1, y, 0)) == null) xLeft--;
-                    int xRight = x;
-                    while (xRight < m_width - 1 && tilemap.GetTile(new Vector3Int(xRight + 1, y, 0)) == null) xRight++;
-
-                    pointA.position = tilemap.CellToWorld(new Vector3Int(xLeft, y, 0)) + new Vector3(0.5f, 0.5f, 0);
-                    pointB.position = tilemap.CellToWorld(new Vector3Int(xRight, y, 0)) + new Vector3(0.5f, 0.5f, 0);
 
                     //go to next enemy to spawn
                     break;
