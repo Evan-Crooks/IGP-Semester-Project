@@ -1,7 +1,10 @@
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Projectile : MonoBehaviour
 {
+    
     public float speed;
     public Vector2 direction;
     public float damage;
@@ -35,7 +38,6 @@ public class Projectile : MonoBehaviour
         float scale,
         float mass,
         float bounciness,
-        float fireRate,
         float recoil,
         Sprite sprite,
         WeaponController weaponController,
@@ -54,7 +56,6 @@ public class Projectile : MonoBehaviour
         this.scale = scale;
         this.mass = mass;
         this.bounciness = bounciness;
-        this.fireRate = fireRate;
         this.recoil = recoil;
         this.sprite = sprite;
         this.weaponController = weaponController;
@@ -78,7 +79,6 @@ public class Projectile : MonoBehaviour
         scale = other.scale;
         mass = other.mass;
         bounciness = other.bounciness;
-        fireRate = other.fireRate;
         recoil = other.recoil;
         sprite = other.sprite;
         movementPath = other.movementPath;
@@ -164,12 +164,15 @@ public class Projectile : MonoBehaviour
 
 
     }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {
+    void OnTriggerEnter2D(Collider2D other) {
+        string ownerTag = weaponController.gameObject.tag;
         print($"Gameobject: {other.gameObject.name}, with tag: \"{other.gameObject.tag}\"");
+        //For dealing with logic when we have enemy
+        if (ownerTag != "Enemy" && other.gameObject.CompareTag("Enemy")) { 
+            other.gameObject.GetComponent<Health>().DealDamage((int)damage, 1); 
+            onHitEntity(); 
+        }
+        if (ownerTag != "Player"  && other.gameObject.CompareTag("Player")) { other.gameObject.GetComponent<PlayerHealth>().TakeDamage((int)damage, direction); }
         if (other.gameObject.CompareTag("Terrain")) { onHitEnvironment(); }
-        if (other.gameObject.CompareTag("Enemy")) { other.gameObject.GetComponent<Health>().DealDamage((int)damage, 1); onHitEntity(); }
-
     }
 }

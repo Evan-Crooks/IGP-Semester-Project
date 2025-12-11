@@ -1,17 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using Unity.Mathematics;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using UnityEngine.U2D;
-using System;
-using Unity.Mathematics;
 public class BSPMapGenerator : MonoBehaviour
 {
     public int m_width = 50;
     public int m_height = 50;
     public int maxDepth = 6;
+    public GameObject player;
+    public GameObject enemyPrefab;
+    public AStar astarScript;
 
     //min height and min width
     public int minRoomHeight = 10;
@@ -21,6 +25,7 @@ public class BSPMapGenerator : MonoBehaviour
     public TileBase wallTile;
 
     private BSPNode root;
+    [SerializeField] ReColorTiles reColorTiles; 
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +37,18 @@ public class BSPMapGenerator : MonoBehaviour
         FillWithWalls();
         ConnectRooms(root);
         DrawRooms(root);
+        //spawn enemies
+        SpawnEnemies();
+        //place player in map
+        Vector3 spawnPos = FindEmptySpot();
+        player.transform.position = spawnPos;
+        //have astar build the grid
+        if(astarScript != null)
+        {
+            astarScript.BuildGrid();
+        }
 
+        reColorTiles.ReplaceExposedTiles();
     }
 
 
@@ -440,6 +456,45 @@ public class BSPMapGenerator : MonoBehaviour
                 {
                     Vector3Int pos = new Vector3Int(x, y, 0);
                     tilemap.SetTile(pos, wallTile);
+                }
+            }
+        }
+    }
+
+    public Vector3 FindEmptySpot()
+    {
+        for(int i = 0; i < m_width; i++)
+        {
+            for(int j = 0; j < m_height; j++)
+            {
+                if(tilemap.GetTile(new Vector3Int(i, j, 0)) == null)
+                {
+                    return tilemap.CellToWorld(new Vector3Int(i, j, 0)) + new Vector3(0.5f, 0.5f, 0f);
+                }
+            }
+        }
+        return Vector3.zero;
+    }
+
+    void SpawnEnemies()
+    {
+        int enemyCount = 10;
+        for(int i = 0; i < enemyCount; i++)
+        {
+            for(int tries = 0; tries < 1000; tries++)
+            {
+                int x = UnityEngine.Random.Range(0, m_width);
+                int y = UnityEngine.Random.Range(0, m_height);
+                Vector3Int cellPos = new Vector3Int(x, y, 0);
+
+                //spawn if empty tile
+                if (tilemap.GetTile(cellPos) == null)
+                {
+                    Vector3 worldPos = tilemap.CellToWorld(cellPos) + new Vector3(0.5f, 0.5f, 0);
+                    GameObject enemy = Instantiate(enemyPrefab, worldPos, Quaternion.identity);
+
+                    //go to next enemy to spawn
+                    break;
                 }
             }
         }

@@ -29,8 +29,8 @@ public class WeaponController : MonoBehaviour
 
     void Start()
     {
-        weaponObject = GameObject.Find("Player Weapon");
-        if (weaponObject == null) print("player needs gameobject called \"Player Weapon\" to function, \r it should have basic part scripts assigned by default but can be switched.");
+        weaponObject = gameObject;
+        pManager = GameObject.FindWithTag("Projectile Manager").GetComponent<ProjectileManager>();
         AssembleWeapon();
     }
     void Update()
@@ -40,8 +40,11 @@ public class WeaponController : MonoBehaviour
 
     public void OnAttacInput()
     {
-        Fire();
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0; // Ensure z is 0 for 2D
+        Fire((mousePosition - transform.position).normalized);
     }
+
     public void AssembleWeapon()
     {
         //assign each part
@@ -52,58 +55,20 @@ public class WeaponController : MonoBehaviour
         grip = weaponObject.GetComponent<GripPart>();
 
         // Base logic
-        if (basePart != null)
-        {
-            weaponStats = basePart.properties;
-        }
-        else
-        {
-            Debug.LogWarning("BasePart not found on weaponObject.");
-        }
-
-        // Barrel logic
-        if (barrel != null)
-        {
-            weaponStats += weaponStats * barrel.properties;
-        }
-        else
-        {
-            Debug.LogWarning("BarrelPart not found on weaponObject.");
-        }
-
-        // Magazine logic
-        if (magazine != null)
-        {
-            weaponStats += weaponStats * magazine.properties;
-        }
-        else
-        {
-            Debug.LogWarning("MagazinePart not found on weaponObject.");
-        }
-
-        // Stock logic
-        if (stock != null)
-        {
-            weaponStats += weaponStats * stock.properties;
-        }
-        else
-        {
-            Debug.LogWarning("StockPart not found on weaponObject.");
-        }
-
+        weaponStats = basePart.properties;
+        //Barrel logic
+        weaponStats += barrel.properties;
+        //magazine  
+        weaponStats += magazine.properties;
+        //stock
+        weaponStats += stock.properties;
         // Grip logic
-        if (grip != null)
-        {
-            weaponStats += weaponStats * grip.properties;
-        }
-        else
-        {
-            Debug.LogWarning("GripPart not found on weaponObject.");
-        }
+        weaponStats += grip.properties;
+        weaponStats.projSprite = magazine.properties.projSprite;
     }
 
-    // 1/fire rate =
-    void Fire()
+    // 1/fire rate = time between shot
+    public void Fire(Vector2 direction)
     {
         // TODO fire rate is limited by frame rate should not be in the future.
         //lock projectile from firing before it should be able to 
@@ -124,19 +89,18 @@ public class WeaponController : MonoBehaviour
             weaponStats.projScale,
             weaponStats.projMass,
             weaponStats.projBounciness,
-            weaponStats.projFireRate,
+
             weaponStats.projRecoil,
             weaponStats.projSprite,
             this,
             weaponStats.movementPath//change this with weapon parts
         );
         projectile.transform.position = transform.position;
-        var sr = projectile.gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer sr = projectile.gameObject.GetComponent<SpriteRenderer>();
         if (sr != null) sr.sprite = projectile.sprite;
         // target mouse position
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0; // Ensure z is 0 for 2D
-        projectile.direction = (mousePosition - transform.position).normalized;
+
+        projectile.direction = direction; 
         // TODO add controller support
         projectile.gameObject.SetActive(true);
     }

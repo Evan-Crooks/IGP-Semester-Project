@@ -3,5 +3,5 @@ using UnityEngine;
 
 public abstract class BarrelPart : WeaponPart
 {
-
+    
 }

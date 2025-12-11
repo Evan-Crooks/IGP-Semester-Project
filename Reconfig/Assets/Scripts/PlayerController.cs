@@ -10,17 +10,29 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundLayer;
     private float horizontal;
-    private float speed = 8f;
+    [SerializeField] float speed = 1f;
     public float jumpingPower = 8f;//
     public bool movedSinceKnockback = false;
 
     private KnockBack knockBack;
+    Animator ani;
+    PlayerHealth health;
 
 
     // Start is called before the first frame update
     void Start()
     {
         knockBack = GetComponent<KnockBack>();
+        ani = GetComponent<Animator>();
+        health = GetComponent<PlayerHealth>();
+    }
+    void Update()
+    {
+        ani.SetFloat("Velocity x", rb.velocity.x/10);
+        ani.SetFloat("Velocity y", rb.velocity.y);
+        ani.SetFloat("Health", health.health);
+        if(rb.velocity.x < 0) transform.localScale = new Vector3(-1,1,1);
+        if(rb.velocity.x > 0) transform.localScale = Vector3.one;
     }
 
     void LateUpdate()
@@ -29,7 +41,7 @@ public class PlayerController : MonoBehaviour
         {
             if (movedSinceKnockback == true)
             {
-                rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+                rb.velocity += new Vector2(horizontal * speed, 0);
             }
         }
         else
@@ -61,7 +73,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("IsGrounded: " + IsGrounded());
         if (context.performed && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            rb.velocity += Vector2.up*jumpingPower;
         }
     }
 

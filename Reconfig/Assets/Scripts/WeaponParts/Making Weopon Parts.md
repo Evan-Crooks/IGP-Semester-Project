@@ -17,6 +17,7 @@ This aims to be concise: how stats are generated and when part event hooks run.
 
 Keep it simple: only set the fields your part should influence; leave others at 0.
 
+
 ## Event Hooks (override in your part)
 - `onHitEntity(Projectile p)`: Runs when a projectile hits an `Enemy`.
 - `onHitEnvironment(Projectile p)`: Runs when a projectile hits `Terrain`.
