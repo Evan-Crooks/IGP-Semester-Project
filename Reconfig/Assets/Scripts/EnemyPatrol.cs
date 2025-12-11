@@ -19,25 +19,6 @@ public class EnemyPatrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Vector2 point = currentPoint.position - transform.position;
-        // if (currentPoint == pointB.transform)
-        // {
-        //     rb.velocity = new Vector2(speed, 0f);
-        // }
-        // else
-        // {
-        //     rb.velocity = new Vector2(-speed, 0f);
-        // }
-
-        // if (Vector2.Distance(transform.position, currentPoint.position) < 0.2f && currentPoint == pointB.transform)
-        // {
-        //     currentPoint = pointA.transform;
-        // }
-        // if (Vector2.Distance(transform.position, currentPoint.position) < 0.2f && currentPoint == pointA.transform)
-        // {
-        //     currentPoint = pointB.transform;
-        // }
-
         //points can be any height with this
         if(!IsBetween(gameObject.transform.position, pointA.transform.position, pointB.transform.position)) 
             direction= Vector2.right * PatrolDirection(gameObject.transform.position, pointA.transform.position, pointB.transform.position);

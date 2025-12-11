@@ -66,7 +66,8 @@ public class ProjectileManager : MonoBehaviour
         rb.useFullKinematicContacts = true;
         rb.gravityScale = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        projectileObj.AddComponent<SpriteRenderer>();
+        SpriteRenderer sr = projectileObj.AddComponent<SpriteRenderer>();
+        sr.sortingOrder = 1;
         projectileObj.transform.parent = transform;
         return projectileObj;
     }

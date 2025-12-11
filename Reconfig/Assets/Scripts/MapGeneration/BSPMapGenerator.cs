@@ -24,6 +24,7 @@ public class BSPMapGenerator : MonoBehaviour
     public TileBase wallTile;
 
     private BSPNode root;
+    [SerializeField] ReColorTiles reColorTiles; 
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +41,8 @@ public class BSPMapGenerator : MonoBehaviour
         //place player in map
         Vector3 spawnPos = FindEmptySpot();
         player.transform.position = spawnPos;
+
+        reColorTiles.ReplaceExposedTiles();
     }
 
 
