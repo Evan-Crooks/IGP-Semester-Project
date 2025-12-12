@@ -166,6 +166,7 @@ public class Projectile : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other) {
         string ownerTag = weaponController.gameObject.tag;
+        ownerTag ??= "Enemy";
         print($"Gameobject: {other.gameObject.name}, with tag: \"{other.gameObject.tag}\"");
         //For dealing with logic when we have enemy
         if (ownerTag != "Enemy" && other.gameObject.CompareTag("Enemy")) { 

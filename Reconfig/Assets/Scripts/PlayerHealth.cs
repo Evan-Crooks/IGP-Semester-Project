@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -10,18 +11,15 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 10;
 
     private KnockBack knockback;
+    private Rigidbody2D rb;
     void Start()
     {
         health = maxHealth;
         knockback = GetComponent<KnockBack>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    bool isDie = false;
     public void TakeDamage(int amount, Vector2 hitDirection)
     {
         // Update health
@@ -39,6 +37,7 @@ public class PlayerHealth : MonoBehaviour
         // Die if needed
         if (health <= 0)
         {
+            SceneManager.LoadScene("MainMenu");
             //tell score Manager that game is over
             ScoreManager.instance.GameOver();
             //make sure character is dead
