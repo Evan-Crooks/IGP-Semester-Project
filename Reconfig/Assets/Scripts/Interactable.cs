@@ -31,5 +31,6 @@ public enum InteractionType
     Barrel,
     Magazine,
     Stock,
-    Grip
+    Grip,
+    BossSpawner
 }

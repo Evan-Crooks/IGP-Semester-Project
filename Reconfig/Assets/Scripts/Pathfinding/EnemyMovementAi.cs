@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovementAI : MonoBehaviour
 {
-    public float moveSpeed = 3f;
+    public float moveSpeed = 6f;
     public float pathUpdateRate = 0.5f;
     public float stopDistance = 0.5f;
 

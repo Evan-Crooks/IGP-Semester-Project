@@ -39,7 +39,9 @@ public class PlayerHealth : MonoBehaviour
         // Die if needed
         if (health <= 0)
         {
-            //make sure character dies
+            //tell score Manager that game is over
+            ScoreManager.instance.GameOver();
+            //make sure character is dead
             Destroy(gameObject, 0.01f);
         }
     }
