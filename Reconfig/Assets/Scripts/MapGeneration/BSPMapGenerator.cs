@@ -37,8 +37,6 @@ public class BSPMapGenerator : MonoBehaviour
         FillWithWalls();
         ConnectRooms(root);
         DrawRooms(root);
-        //spawn enemies
-        SpawnEnemies();
         //place player in map
         Vector3 spawnPos = FindEmptySpot();
         player.transform.position = spawnPos;
