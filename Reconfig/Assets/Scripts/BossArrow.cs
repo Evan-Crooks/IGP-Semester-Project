@@ -39,12 +39,7 @@ public class BossArrow : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
 
         // Flip when the source (or its parent) is mirrored on X.
-        float scaleX = transform.parent != null ? transform.parent.lossyScale.x : source.lossyScale.x;
-        if (scaleX < 0f)
-        {
-            angle = -angle;
-        }
-
+        transform.localScale = transform.parent.localScale;
         transform.rotation = Quaternion.Euler(0,0,angle);
     }
 
