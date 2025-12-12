@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 1039605741437956418}
   - component: {fileID: 7620125880011131336}
   - component: {fileID: 1689521538432161774}
+  - component: {fileID: 5284160981858624565}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -554,6 +555,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d1669a08-fbe5-443e-898c-ef6f2497ddd0
     m_ActionName: Player/Grapple[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0102a07f-7001-4485-a440-17f3da4ed465
+    m_ActionName: Player/Interact[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1100,6 +1105,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5284160981858624565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5271654060287139543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d045d9875578fa04e97a02d08cfdba84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionTarget: {fileID: 0}
 --- !u!1 &6749790659701790475
 GameObject:
   m_ObjectHideFlags: 0

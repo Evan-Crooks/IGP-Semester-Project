@@ -12,7 +12,7 @@ public class Interact : MonoBehaviour
         interact();
     }
     private void interact()
-    {
+    {        
         if (interactionTarget != null)
         {
             // Capture the original pickup so new triggers (e.g., from DropPart) don't overwrite it
@@ -30,11 +30,15 @@ public class Interact : MonoBehaviour
                         MagazinePart newPart = (MagazinePart)weaponObject.AddComponent(newPartType); //add new component
                         newPart.properties = ((MagazinePart)interactionTarget.component).properties; //copy properties from pickup
                         DestroyImmediate(interactionTarget.gameObject);
-
+                        wc.AssembleWeapon();
+                        break;
+                    }
+                case InteractionType.BossSpawner:
+                    {
+                        Debug.Log("I SPAWNED YOU !!");
                         break;
                     }
             }
-            wc.AssembleWeapon();
         }
     }
     void dropPart(WeaponPart partToDrop)

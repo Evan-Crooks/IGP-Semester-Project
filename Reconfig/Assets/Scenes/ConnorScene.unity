@@ -470,6 +470,7 @@ MonoBehaviour:
   maxDepth: 6
   player: {fileID: 178148910}
   enemyPrefab: {fileID: 8955833922495553687, guid: 5a3954c08f190594fb746798c2bc81bd, type: 3}
+  bossSpawner: {fileID: 2005422133092410450, guid: b6730bc591113534cb737ae2d1e62a1c, type: 3}
   astarScript: {fileID: 2069586608}
   minRoomHeight: 10
   minRoomWidth: 20
