@@ -223,7 +223,8 @@ public class BSPMapGenerator : MonoBehaviour
                 }
                 //if all constraints are satisfied, place boss spawner
                 Vector3 position = tilemap.CellToWorld(pos) +new Vector3(0.5f, 0.5f, 0);
-                Instantiate(bossSpawner, position, Quaternion.identity);
+                GameObject boss = Instantiate(bossSpawner, position, Quaternion.identity);
+                boss.name = "Boss";
                 br = true;
                 break;
             }
