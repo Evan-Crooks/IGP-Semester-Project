@@ -353,7 +353,7 @@ MonoBehaviour:
   m_height: 200
   maxDepth: 6
   player: {fileID: 0}
-  enemyPrefab: {fileID: 6105672821644456453, guid: a61aa1d4bc426884f915aa985877c811, type: 3}
+  astarScript: {fileID: 0}
   minRoomHeight: 10
   minRoomWidth: 20
   tilemap: {fileID: 8729818325745904757}
@@ -455,7 +455,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:

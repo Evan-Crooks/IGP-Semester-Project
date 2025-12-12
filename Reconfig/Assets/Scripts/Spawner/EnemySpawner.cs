@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,6 +21,7 @@ public class EnemySpawner : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        if (tilemap == null) tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
     }
 
     private void spawnEnemy()
