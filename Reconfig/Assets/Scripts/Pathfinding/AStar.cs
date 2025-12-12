@@ -32,6 +32,7 @@ public class AStar : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        if(tilemap ==null) tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>(); 
     }
 
     //taken from: https://medium.com/@aliyousefi-dev/unity-pathfinder-a-a-star-algorithm-guide-a2a0e9b92bb7

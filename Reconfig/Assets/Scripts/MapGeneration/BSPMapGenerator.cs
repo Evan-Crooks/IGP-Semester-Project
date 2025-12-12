@@ -14,7 +14,6 @@ public class BSPMapGenerator : MonoBehaviour
     public int m_height = 50;
     public int maxDepth = 6;
     public GameObject player;
-    public GameObject enemyPrefab;
     public AStar astarScript;
 
     //min height and min width
@@ -29,6 +28,10 @@ public class BSPMapGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(player == null) player = GameObject.Find("Player");
+        if(astarScript == null) astarScript = GameObject.Find("GameManager").GetComponent<AStar>();
+
+
         //initialize the root of the tree
         root = new BSPNode(0, 0, m_width, m_height);
         //generate partitions
@@ -472,34 +475,5 @@ public class BSPMapGenerator : MonoBehaviour
             }
         }
         return Vector3.zero;
-    }
-
-    void SpawnEnemies()
-    {
-        int enemyCount = 10;
-        for(int i = 0; i < enemyCount; i++)
-        {
-            for(int tries = 0; tries < 1000; tries++)
-            {
-                int x = UnityEngine.Random.Range(0, m_width);
-                int y = UnityEngine.Random.Range(0, m_height);
-                Vector3Int cellPos = new Vector3Int(x, y, 0);
-
-                //spawn if empty tile
-                if (tilemap.GetTile(cellPos) == null)
-                {
-                    Vector3 worldPos = tilemap.CellToWorld(cellPos) + new Vector3(0.5f, 0.5f, 0);
-                    GameObject enemy = Instantiate(enemyPrefab, worldPos, Quaternion.identity);
-
-                    //go to next enemy to spawn
-                    break;
-                }
-            }
-        }
-    }
-
-    void addColumns(Room room, int numberOfColumns)
-    {
-
     }
 }

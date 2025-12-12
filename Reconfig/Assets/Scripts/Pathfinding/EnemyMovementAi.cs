@@ -7,15 +7,24 @@ public class EnemyMovementAI : MonoBehaviour
     public float moveSpeed = 6f;
     public float pathUpdateRate = 0.5f;
     public float stopDistance = 0.5f;
+    public float slowDownDistance = 0.2f;
 
     private Transform player;
     private List<GridNode> currentPath;
     private int pathIndex = 0;
     private float pathTimer = 0f;
+    private Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            rb = gameObject.AddComponent<Rigidbody2D>();
+            rb.gravityScale = 0f;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
     }
 
     // Update is called once per frame
@@ -54,9 +63,20 @@ public class EnemyMovementAI : MonoBehaviour
             currentPath[pathIndex].WorldPosition.y,
             transform.position.z);
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        Vector3 toTarget = targetPos - transform.position;
+        float distance = toTarget.magnitude;
+        if (distance < stopDistance)
+        {
+            rb.velocity = Vector2.zero;
+            pathIndex++;
+            return;
+        }
 
-        if (Vector3.Distance(transform.position, targetPos) < stopDistance)
+        float speedFactor = distance < slowDownDistance ? distance / slowDownDistance : 1f;
+        Vector2 desiredVelocity = toTarget.normalized * moveSpeed * speedFactor;
+        rb.velocity = desiredVelocity;
+
+        if (distance < stopDistance)
         {
             pathIndex++;
         }
