@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Reconfig/Assets/Scripts/MapGeneration/BSPMapGenerator.cs.meta
+guid: d045d9875578fa04e97a02d08cfdba84
+========
+guid: b2de8caf483bda148b76ab1f5c4db2a3
+>>>>>>>> 5d98e29f81adb4f4bfabb81862282c0d2ebc2933:Reconfig/Assets/Scripts/Interact.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
