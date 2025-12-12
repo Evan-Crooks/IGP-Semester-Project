@@ -19,17 +19,17 @@ public class BossArrow : MonoBehaviour
 
         if (target == null)
         {
-            GameObject boss = GameObject.Find("Boss");
-            if (boss != null) target = boss.transform;
-        }
-        if (target == null)
-        {
             GameObject bossSpawner = GameObject.Find("Boss Spawner");
             if (bossSpawner != null) target = bossSpawner.transform;
         }
     }
     void Update()
     {
+        if (target == null)
+        {
+            GameObject boss = GameObject.Find("Boss");
+            if (boss != null) target = boss.transform;
+        }
         if (target == null || source == null)
         {
             return;

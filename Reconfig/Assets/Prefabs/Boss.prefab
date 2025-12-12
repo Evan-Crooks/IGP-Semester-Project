@@ -162,7 +162,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0023553222, y: -0.0047110617}
+  m_Offset: {x: 0.027556956, y: 0.011548057}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -173,7 +173,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.63725567, y: 0.49121553}
+  m_Size: {x: 0.26817322, y: 0.2961057}
   m_EdgeRadius: 0
 --- !u!114 &2496511528994264655
 MonoBehaviour:
@@ -216,6 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819de2a2a319ba54c8d1347c18a08a76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 5000
+  health: 0
   armor: 0
   healthBar: {fileID: 3054766181584013711}
 --- !u!114 &5418704766271305979
@@ -747,7 +749,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744831260836075076}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c93a5b95384e6b43836fa8a58035c93, type: 3}
   m_Name: 
@@ -779,6 +781,7 @@ MonoBehaviour:
   - {fileID: 8837684580017952495}
   - {fileID: 4202949794758782702}
   - {fileID: 2418121446655591380}
+  - {fileID: 8904620340182249681}
   blackanimation: {fileID: 9100000, guid: e54e2db776fb6df4bbdcc14d200d26ef, type: 2}
 --- !u!1 &2292853760887288857
 GameObject:
