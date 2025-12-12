@@ -30,9 +30,10 @@ class Health : MonoBehaviour
         // if health is zero
         if(health < 0)
         {
-            //emit event saying respawn enemy
+            //tell spawner system to respawn enemy
             EnemySpawner.instance.DecrementEnemies();
-            
+            //tell score system to increment score
+            ScoreManager.instance.UpdateScore();
             //destroy entity
             Destroy(gameObject);
         }

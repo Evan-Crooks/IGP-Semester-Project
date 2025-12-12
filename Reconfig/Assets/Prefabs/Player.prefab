@@ -357,6 +357,7 @@ GameObject:
   - component: {fileID: 1039605741437956418}
   - component: {fileID: 7620125880011131336}
   - component: {fileID: 1689521538432161774}
+  - component: {fileID: 5284160981858624565}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -653,6 +654,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d1669a08-fbe5-443e-898c-ef6f2497ddd0
     m_ActionName: Player/Grapple[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0102a07f-7001-4485-a440-17f3da4ed465
+    m_ActionName: Player/Interact[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

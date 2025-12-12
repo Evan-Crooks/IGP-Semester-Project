@@ -14,6 +14,8 @@ public class BSPMapGenerator : MonoBehaviour
     public int m_height = 50;
     public int maxDepth = 6;
     public GameObject player;
+    public GameObject enemyPrefab;
+    public GameObject bossSpawner;
     public AStar astarScript;
 
     //min height and min width
@@ -48,7 +50,8 @@ public class BSPMapGenerator : MonoBehaviour
         {
             astarScript.BuildGrid();
         }
-
+        //place boss spawner in map towards upper right hand corner if possible
+        spawnBossSpawner();
         reColorTiles.ReplaceExposedTiles();
     }
 
@@ -181,6 +184,62 @@ public class BSPMapGenerator : MonoBehaviour
             //center will be xMid and yMid
             node.room = new Room(xMid, xMid, yMid, yMid);
         }
+    }
+
+    //starts search in top right corner and looks for suitable spot for boss spawner incrementally until it finds one
+    void spawnBossSpawner()
+    {
+        bool br = false;
+        for (int i = m_width-1; i >= 0; i--)
+        {
+            for (int j = m_height-1; j >= 0; j--)
+            {
+                Vector3Int pos = new Vector3Int(i, j, 0);
+
+                if(tilemap.GetTile(pos) != null)
+                {
+                    continue;
+                }
+                //check if floor tile below
+                Vector3Int below = new Vector3Int(i, j - 1, 0);
+                if(j - 1  < 0 || tilemap.GetTile(below) == null)
+                {
+                    continue;
+                }
+                //check if 2 open tiles to left
+                if(!tileOpen(i-1, j) || !tileOpen(i - 2, j)){
+                    continue;
+                }
+
+                //check if 2 open tiles to right
+                if (!tileOpen(i + 1, j) || !tileOpen(i + 2, j))
+                {
+                    continue;
+                }
+                //check if 3 open tiles above
+                if (!tileOpen(i, j+1) || !tileOpen(i, j+2) || !tileOpen(i, j + 3))
+                {
+                    continue;
+                }
+                //if all constraints are satisfied, place boss spawner
+                Vector3 position = tilemap.CellToWorld(pos) +new Vector3(0.5f, 0.5f, 0);
+                Instantiate(bossSpawner, position, Quaternion.identity);
+                br = true;
+                break;
+            }
+            if (br)
+            {
+                break;
+            }
+        }
+    }
+
+    bool tileOpen(int x, int y)
+    {
+        if (x < 0 || y < 0 || x >= m_width || y >= m_height)
+            return false;
+
+        return tilemap.GetTile(new Vector3Int(x, y, 0)) == null;
     }
 
     /*Corridor drawing section of code*/

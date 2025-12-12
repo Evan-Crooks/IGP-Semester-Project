@@ -7,6 +7,6 @@ public class HealthBarUi : MonoBehaviour
     public void UpdateHealthBar(PlayerHealth playerHealth)
     {
 
-        _HealthBarForeGroundImage.fillAmount = playerHealth.health/10f;
+        _HealthBarForeGroundImage.fillAmount = playerHealth.health/playerHealth.maxHealth;
     }
 }

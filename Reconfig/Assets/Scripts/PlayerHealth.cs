@@ -38,6 +38,10 @@ public class PlayerHealth : MonoBehaviour
         if (health <= 0)
         {
             SceneManager.LoadScene("MainMenu");
+            //tell score Manager that game is over
+            ScoreManager.instance.GameOver();
+            //make sure character is dead
+            Destroy(gameObject, 0.01f);
         }
     }
 }
