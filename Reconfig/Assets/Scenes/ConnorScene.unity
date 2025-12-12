@@ -281,9 +281,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2250448147485411350, guid: 692b6e6d8da374d49b32695c9200e696, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 99.20999
+      objectReference: {fileID: 0}
+    - target: {fileID: 2250448147485411350, guid: 692b6e6d8da374d49b32695c9200e696, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -47.729996
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259864694575283465, guid: 692b6e6d8da374d49b32695c9200e696, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5271654060287139543, guid: 692b6e6d8da374d49b32695c9200e696, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5421580048431648971, guid: 692b6e6d8da374d49b32695c9200e696, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5421580048431648971, guid: 692b6e6d8da374d49b32695c9200e696, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5421580048431648971, guid: 692b6e6d8da374d49b32695c9200e696, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 5.080002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -758,6 +782,14 @@ PrefabInstance:
     - target: {fileID: 4862682234384783986, guid: c39d61cfee1de984ea5aab2b8c59f828, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255288529284749222, guid: c39d61cfee1de984ea5aab2b8c59f828, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255288529284749222, guid: c39d61cfee1de984ea5aab2b8c59f828, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7648935366710699276, guid: c39d61cfee1de984ea5aab2b8c59f828, type: 3}
       propertyPath: tilemap
