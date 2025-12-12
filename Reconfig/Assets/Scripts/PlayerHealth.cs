@@ -12,11 +12,33 @@ public class PlayerHealth : MonoBehaviour
 
     private KnockBack knockback;
     private Rigidbody2D rb;
+    private bool addHealth = false;
+    private bool addHealthLock = false;
     void Start()
     {
         health = maxHealth;
         knockback = GetComponent<KnockBack>();
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        if(ScoreManager.instance.time % 3 == 0)
+        {
+            if (addHealthLock)
+            {
+                if (health < maxHealth && addHealth)
+                {
+                    health += 1;
+                }
+                addHealthLock = false;
+                addHealth = false;
+            }
+        } else
+        {
+            addHealthLock = true;
+            addHealth = true;
+        }
     }
 
     bool isDie = false;
@@ -40,8 +62,7 @@ public class PlayerHealth : MonoBehaviour
             SceneManager.LoadScene("MainMenu");
             //tell score Manager that game is over
             ScoreManager.instance.GameOver();
-            //make sure character is dead
-            Destroy(gameObject, 0.01f);
+            
         }
     }
 }
