@@ -9,7 +9,11 @@ public class EnemySpawner : MonoBehaviour
     private int NumberOfEnemiesSpawned = 0;
     public int MaxEnemies = 10;
     public Tilemap tilemap;
-    public GameObject enemyPrefab;
+    public GameObject enemyMeleePrefab;
+    public GameObject enemyRangedPrefab;
+    public float timeSinceLastSpawn = 0f;
+    public float spawnTime = 0.1f;
+    private bool spawnMelee = true;
 
     public static EnemySpawner instance { get; set; }
 
@@ -20,8 +24,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void spawnEnemy()
     {
-        int enemyCount = 10;
-
         for (int tries = 0; tries < 1000; tries++)
         {
             int x = UnityEngine.Random.Range(0, tilemap.cellBounds.size.x);
@@ -32,10 +34,22 @@ public class EnemySpawner : MonoBehaviour
             if (tilemap.GetTile(cellPos) == null)
             {
                 Vector3 worldPos = tilemap.CellToWorld(cellPos) + new Vector3(0.5f, 0.5f, 0);
-                GameObject enemy = Instantiate(enemyPrefab, worldPos, Quaternion.identity);
+                if (spawnMelee)
+                {
+                    Instantiate(enemyMeleePrefab, worldPos, Quaternion.identity);
+                } else
+                {
+                    Instantiate(enemyRangedPrefab, worldPos, Quaternion.identity);
+                }
+                spawnMelee = !spawnMelee;
                 break;
             }
         }
+    }
+
+    public void DecrementEnemies()
+    {
+        NumberOfEnemiesSpawned--;
     }
 
     // Start is called before the first frame update
@@ -48,5 +62,12 @@ public class EnemySpawner : MonoBehaviour
     void Update()
     {
         //If there are not 10 enemies
+        if (NumberOfEnemiesSpawned < MaxEnemies && timeSinceLastSpawn > spawnTime)
+        {
+            timeSinceLastSpawn = 0;
+            spawnEnemy();
+            NumberOfEnemiesSpawned++;
+        }
+        timeSinceLastSpawn += Time.deltaTime;
     }
 }
